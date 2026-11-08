@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blocked hours | Play Together</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-root="../" data-nav="manager" data-mnav="blocks">
+<!-- header, footer and messages are filled in by assets/js/common.js -->
+<header class="site-header" id="site-header"></header>
+<div id="flashes"></div>
+<main>
+<nav id="manager-nav"></nav>
+<div class="container band" style="padding-top:1rem">
+  <h1>Blocked hours</h1>
+  <div id="blocks-area"></div>
+  <div id="block-wrap" hidden>
+    <form method="post" action="../actions/manager_blocks.php" id="block-form" class="form-card" style="margin-bottom:2rem" novalidate>
+      <input type="hidden" name="csrf" value=""><input type="hidden" name="action" value="add">
+      <div class="row row-2">
+        <div class="field"><label for="court_id">Court</label><select id="court_id" name="court_id"></select></div>
+        <div class="field"><label for="block_date">Date</label><input type="date" id="block_date" name="block_date" required></div>
+      </div>
+      <div class="row row-3">
+        <div class="field"><label for="start_hour">From</label><select id="start_hour" name="start_hour"></select></div>
+        <div class="field"><label for="end_hour">Until</label><select id="end_hour" name="end_hour"></select></div>
+        <div class="field"><label for="reason">Reason (optional)</label><input type="text" id="reason" name="reason" maxlength="150" placeholder="Floor resurfacing"></div>
+      </div>
+      <button class="btn" type="submit">Block these hours</button>
+    </form>
+    <div id="blocks-box"></div>
+  </div>
+</div>
+</main>
+<footer class="site-footer" id="site-footer"></footer>
+<script src="../assets/js/common.js"></script>
+<script src="../assets/js/pages/manager_blocks.js"></script>
+</body>
+</html>

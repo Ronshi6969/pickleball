@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sports hub and community | Play Together</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-root="" data-nav="">
+<!-- header, footer and messages are filled in by assets/js/common.js -->
+<header class="site-header" id="site-header"></header>
+<div id="flashes"></div>
+<main>
+<section class="container hero">
+  <div>
+    <h1>Play<br>Together</h1>
+    <p style="font-size:1.15rem;max-width:30rem">Book a court by the hour or drop into an open play near you. Find the game, bring your paddle.</p>
+    <div class="hero-actions">
+      <a class="pill-xl" href="openplays.html">Open play</a>
+      <a class="pill-xl" href="venues.html">Court rental</a>
+    </div>
+  </div>
+  <div class="court-art" role="img" aria-label="Illustration of a pickleball court"></div>
+</section>
+
+<section class="band band-pink" id="open-plays">
+  <div class="container">
+    <div class="section-head"><h2>Open plays this week</h2><a class="btn btn-ghost" href="openplays.html">See all open plays</a></div>
+    <div id="plays-box"></div>
+  </div>
+</section>
+
+<section class="band band-lime">
+  <div class="container">
+    <div class="section-head"><h2>Featured courts</h2><a class="btn btn-ghost" href="venues.html">Browse all courts</a></div>
+    <div class="grid" id="featured-box"></div>
+  </div>
+</section>
+
+<section class="band band-sky" id="cta" hidden>
+  <div class="container center">
+    <h2>Ready to play?</h2>
+    <p>Make a free player account to book courts and join open plays. Run a venue? List your courts and manage bookings in one place.</p>
+    <div class="actions" style="justify-content:center">
+      <a class="btn btn-ink" href="register.html">Join as a player</a>
+      <a class="btn btn-ghost" href="venue_register.html">List your venue</a>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="site-footer" id="site-footer"></footer>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/pages/index.js"></script>
+</body>
+</html>
