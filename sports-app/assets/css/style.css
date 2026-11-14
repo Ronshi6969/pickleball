@@ -163,7 +163,9 @@ p{margin:0 0 1em}
 .btn-arrow{
   width:22px;height:22px;border-radius:50%;display:inline-grid;place-items:center;
   background:var(--ink);color:var(--volt);font-size:.8rem;line-height:1;
+  transition:transform .18s ease;
 }
+.btn:hover .btn-arrow{transform:translateX(3px)}
 .btn-ghost .btn-arrow{background:var(--volt);color:var(--ink)}
 
 .pill-xl{
@@ -401,6 +403,11 @@ textarea{min-height:5.5rem;resize:vertical}
 .alert{
   border:1px solid var(--line);border-radius:10px;padding:.8rem 1rem;margin-bottom:.6rem;
   background:var(--card);font-weight:500;
+  animation:alertSlide .28s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes alertSlide{
+  from{opacity:0;transform:translateY(-8px)}
+  to{opacity:1;transform:translateY(0)}
 }
 .alert-success{background:rgba(53,212,122,.14);border-color:rgba(53,212,122,.45);color:#8ef5ba}
 .alert-error{background:rgba(255,82,82,.14);border-color:rgba(255,82,82,.45);color:#ffa8a8}
@@ -542,12 +549,140 @@ tr:last-child td{border-bottom:0}
   background-size:9px 9px;
 }
 
+/* ---------- Animations (Selective: Opening Intro, Hero Entrance, Court Ball, Scroll Reveal, Modal, Role Switch) ---------- */
+.site-intro{
+  position:fixed;inset:0;z-index:100;background:var(--void);
+  display:grid;place-items:center;pointer-events:none;
+  animation:introCurtain .85s cubic-bezier(.77,0,.18,1) .55s forwards;
+}
+.site-intro-inner{
+  display:flex;flex-direction:column;align-items:center;gap:.85rem;text-align:center;
+  animation:introPop .45s cubic-bezier(.22,1,.36,1) both;
+}
+.site-intro-logo{
+  width:78px;height:78px;border-radius:18px;background:#eef5f4;border:3px solid var(--volt);
+  padding:8px;box-shadow:0 0 36px rgba(200,255,26,.35);
+}
+.site-intro-logo img{width:100%;height:100%;object-fit:contain}
+.site-intro-title{
+  font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.75rem;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--chalk);
+}
+.site-intro-bar{
+  width:140px;height:4px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden;
+}
+.site-intro-bar span{
+  display:block;height:100%;background:var(--volt);transform-origin:left;
+  animation:introBar .5s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes introPop{
+  from{opacity:0;transform:scale(.9)}
+  to{opacity:1;transform:scale(1)}
+}
+@keyframes introBar{
+  from{transform:scaleX(0)}
+  to{transform:scaleX(1)}
+}
+@keyframes introCurtain{
+  0%{opacity:1;transform:translateY(0)}
+  100%{opacity:0;transform:translateY(-100%);visibility:hidden}
+}
+
+.hero-anim .kicker{animation:heroRise .55s cubic-bezier(.22,1,.36,1) .75s both}
+.hero-anim .hero-title{animation:heroRise .6s cubic-bezier(.22,1,.36,1) .85s both}
+.hero-anim .hero-title .volt-line::after{
+  transform-origin:left;
+  animation:voltSweep .55s cubic-bezier(.22,1,.36,1) 1.08s both;
+}
+.hero-anim .hero-sub{animation:heroRise .55s cubic-bezier(.22,1,.36,1) .95s both}
+.hero-anim .hero-actions{animation:heroRise .55s cubic-bezier(.22,1,.36,1) 1.05s both}
+.hero-anim .hero-meta{animation:heroRise .55s cubic-bezier(.22,1,.36,1) 1.15s both}
+.hero-anim .court-stage{animation:stageIn .7s cubic-bezier(.22,1,.36,1) .92s both}
+
+@keyframes heroRise{
+  from{opacity:0;transform:translateY(22px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes voltSweep{
+  from{transform:skewX(-20deg) scaleX(0)}
+  to{transform:skewX(-20deg) scaleX(1)}
+}
+@keyframes stageIn{
+  from{opacity:0;transform:translateY(26px) scale(.97)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+.hero-anim .court-art::after{
+  animation:ballFloat 3.4s ease-in-out infinite;
+}
+@keyframes ballFloat{
+  0%,100%{transform:translateY(0) scale(1);box-shadow:0 0 24px rgba(200,255,26,.65)}
+  50%{transform:translateY(-7px) scale(1.04);box-shadow:0 12px 32px rgba(200,255,26,.85)}
+}
+
+.reveal{
+  opacity:0;transform:translateY(20px);
+  transition:opacity .55s cubic-bezier(.22,1,.36,1), transform .55s cubic-bezier(.22,1,.36,1);
+}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* ---------- Login Role Choice (Player vs Admin) ---------- */
+.role-switch{
+  display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:1.25rem;
+}
+.role-opt{
+  position:relative;cursor:pointer;margin:0;text-transform:none;letter-spacing:0;
+}
+.role-opt input{
+  position:absolute;opacity:0;pointer-events:none;
+}
+.role-pill{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;
+  padding:.75rem .6rem;border-radius:10px;border:1.5px solid var(--line);
+  background:rgba(7,11,9,.6);color:var(--muted);text-align:center;
+  transition:border-color .16s,background .16s,color .16s,transform .14s;
+}
+.role-pill strong{
+  font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--chalk);
+}
+.role-pill span{font-size:.75rem;color:var(--muted)}
+.role-opt input:checked + .role-pill{
+  border-color:var(--volt);background:var(--volt-dim);color:var(--volt);
+  box-shadow:0 0 0 1px var(--volt);
+}
+.role-opt input:checked + .role-pill strong{color:var(--volt)}
+.role-opt input:checked + .role-pill span{color:var(--chalk)}
+.role-opt input:focus-visible + .role-pill{outline:2px solid var(--volt);outline-offset:2px}
+
+/* ---------- Logout Confirmation Modal ---------- */
+.confirm-backdrop{
+  position:fixed;inset:0;z-index:120;background:rgba(4,7,5,.78);
+  backdrop-filter:blur(6px);display:grid;place-items:center;padding:1rem;
+  animation:fadeIn .18s ease both;
+}
+.confirm-modal{
+  width:min(420px,100%);background:var(--card);border:1px solid var(--line-volt);
+  border-top:4px solid var(--volt);border-radius:var(--radius);padding:1.6rem;
+  box-shadow:0 24px 60px rgba(0,0,0,.7);
+  animation:modalPop .22s cubic-bezier(.22,1,.36,1) both;
+}
+.confirm-modal h2{font-size:1.85rem;margin-bottom:.35rem}
+.confirm-modal p{color:var(--muted);margin-bottom:1.35rem}
+.confirm-actions{display:flex;justify-content:flex-end;gap:.65rem;flex-wrap:wrap}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes modalPop{from{opacity:0;transform:scale(.94) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
 @media print{
   html{color-scheme:light}
-  .site-header,.site-footer,.no-print{display:none!important}
+  .site-header,.site-footer,.no-print,.site-intro,.confirm-backdrop{display:none!important}
   body{background:#fff;color:#000}
   .receipt{background:#fff;color:#000;border:2px solid #000;box-shadow:none}
   .receipt dt{color:#444}
   .receipt .total{color:#000;border-color:#000}
 }
-@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;scroll-behavior:auto!important;animation:none!important}
+  .site-intro{display:none!important}
+  .reveal{opacity:1!important;transform:none!important}
+}

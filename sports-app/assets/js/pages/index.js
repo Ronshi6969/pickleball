@@ -34,4 +34,6 @@ PT.ready.then(async session => {
     </article>`).join('');
 
   if (!session.user) document.getElementById('cta').hidden = false;
+  PT.reveal('.feature-card');
+  PT.reveal('#plays-box .card, #featured-box .card');
 });

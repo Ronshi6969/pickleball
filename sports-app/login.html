@@ -24,13 +24,24 @@
         <div class="kicker">Play Together Pickleball</div>
         <h1 style="font-size:2.6rem">Log in</h1>
         <input type="hidden" name="csrf" value="">
+        <label>Log in as</label>
+        <div class="role-switch" role="radiogroup" aria-label="Account type">
+          <label class="role-opt">
+            <input type="radio" name="login_role" value="player" checked>
+            <span class="role-pill"><strong>Player</strong><span>Book &amp; open play</span></span>
+          </label>
+          <label class="role-opt">
+            <input type="radio" name="login_role" value="manager">
+            <span class="role-pill"><strong>Admin</strong><span>Manage venue &amp; courts</span></span>
+          </label>
+        </div>
         <div class="field"><label for="email">Email</label>
           <input type="email" id="email" name="email" required autocomplete="email">
         </div>
         <div class="field"><label for="password">Password</label>
           <input type="password" id="password" name="password" required autocomplete="current-password">
         </div>
-        <button class="btn btn-block" type="submit">Log in <span class="btn-arrow">&rarr;</span></button>
+        <button class="btn btn-block" type="submit" id="login-submit">Log in as Player <span class="btn-arrow">&rarr;</span></button>
         <p class="small center muted" style="margin-top:1rem">New here? <a href="register.html" class="text-volt">Join
             as a player</a> or <a href="venue_register.html" class="text-volt">list your venue</a>.</p>
       </form>

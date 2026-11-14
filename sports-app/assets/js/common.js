@@ -123,7 +123,7 @@
     if (user) {
       if (user.role === 'player') links += '<a href="' + root + 'profile.html"' + on('profile') + '>Profile</a>';
       links += '<a href="' + root + 'venues.html" class="btn btn-sm">Book a court <span class="btn-arrow">&rarr;</span></a>';
-      links += '<a href="' + root + 'actions/logout.php" class="btn btn-sm btn-ghost">Log out</a>';
+      links += '<a href="' + root + 'actions/logout.php" class="btn btn-sm btn-ghost" data-logout>Log out</a>';
     } else {
       links += '<a href="' + root + 'login.html">Log in</a>' +
                '<a href="' + root + 'register.html" class="btn btn-sm btn-ghost">Join</a>' +
@@ -197,6 +197,63 @@
     if (msg && !window.confirm(msg)) e.preventDefault();
   });
 
+  /* ---------- Logout confirmation modal ---------- */
+  function confirmLogout(href) {
+    const backdrop = document.createElement('div');
+    backdrop.className = 'confirm-backdrop';
+    backdrop.innerHTML =
+      '<div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="logout-title">' +
+        '<div class="kicker">Confirm Action</div>' +
+        '<h2 id="logout-title">Log out?</h2>' +
+        '<p>Are you sure you want to log out of your Play Together Pickleball account?</p>' +
+        '<div class="confirm-actions">' +
+          '<button type="button" class="btn btn-sm btn-ghost" data-cancel>Cancel</button>' +
+          '<a href="' + esc(href) + '" class="btn btn-sm btn-danger">Yes, log out</a>' +
+        '</div>' +
+      '</div>';
+    const close = () => {
+      document.removeEventListener('keydown', onKey);
+      backdrop.remove();
+    };
+    const onKey = e => { if (e.key === 'Escape') close(); };
+    backdrop.addEventListener('click', e => {
+      if (e.target === backdrop || e.target.closest('[data-cancel]')) close();
+    });
+    document.addEventListener('keydown', onKey);
+    document.body.appendChild(backdrop);
+    const cancelBtn = backdrop.querySelector('[data-cancel]');
+    if (cancelBtn) cancelBtn.focus();
+  }
+
+  document.addEventListener('click', e => {
+    const link = e.target.closest && e.target.closest('[data-logout]');
+    if (!link) return;
+    e.preventDefault();
+    confirmLogout(link.getAttribute('href'));
+  });
+
+  /* ---------- Selective scroll reveal (used on landing page cards only) ---------- */
+  function reveal(selector) {
+    const els = Array.from(document.querySelectorAll(selector));
+    if (!els.length) return;
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(el => el.classList.add('in'));
+      return;
+    }
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        en.target.classList.add('in');
+        io.unobserve(en.target);
+      });
+    }, { threshold: 0.12 });
+    els.forEach((el, idx) => {
+      el.classList.add('reveal');
+      el.style.transitionDelay = Math.min(idx * 65, 260) + 'ms';
+      io.observe(el);
+    });
+  }
+
   /* ---------- start ---------- */
   const ready = api('session.php').then(session => {
     buildHeader(session.user);
@@ -207,5 +264,5 @@
     return session;
   });
 
-  window.PT = { root, esc, money, hourLabel, timeLabel, dateLabel, plural, closeText, query, media, hourOptions, api, fillForm, showError, requireRole, ready };
+  window.PT = { root, esc, money, hourLabel, timeLabel, dateLabel, plural, closeText, query, media, hourOptions, api, fillForm, showError, requireRole, reveal, ready };
 })();
