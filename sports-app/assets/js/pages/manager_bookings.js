@@ -40,7 +40,12 @@ PT.ready.then(async session => {
       <td>${esc(b.player)}<br><span class="small muted">${esc(b.email)}</span></td>
       <td>${esc(money(b.total_price))}</td>
       <td>${b.status === 'confirmed' ? '<span class="badge badge-ok">Confirmed</span>' : '<span class="badge badge-bad">Cancelled</span>'}</td>
-      <td>${b.future ? `<form method="post" action="../actions/manager_bookings.php" class="inline-form" data-confirm="Cancel this booking?">
+      <td>${b.future ? `<form method="post" action="../actions/manager_bookings.php" class="inline-form"
+        data-confirm="Are you sure you want to cancel ${esc(b.player)}'s booking for ${esc(b.court_name)}?"
+        data-confirm-kicker="Cancel Rental"
+        data-confirm-title="Cancel booking?"
+        data-confirm-btn="Yes, cancel booking"
+        data-confirm-cancel="Keep booking">
         <input type="hidden" name="csrf" value="${esc(session.csrf)}"><input type="hidden" name="action" value="cancel"><input type="hidden" name="show" value="${show}"><input type="hidden" name="id" value="${Number(b.id)}">
         <button class="btn btn-sm btn-danger" type="submit">Cancel</button></form>` : ''}</td></tr>`).join('') + '</tbody></table></div>';
 });

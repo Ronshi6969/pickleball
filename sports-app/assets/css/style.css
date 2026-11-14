@@ -673,6 +673,41 @@ tr:last-child td{border-bottom:0}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes modalPop{from{opacity:0;transform:scale(.94) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
 
+/* ---------- Password View Toggle ---------- */
+.pw-wrap{position:relative;display:flex;align-items:center}
+.pw-wrap input{padding-right:2.85rem}
+.pw-toggle{
+  position:absolute;right:.45rem;top:50%;transform:translateY(-50%);
+  width:34px;height:34px;border:0;border-radius:6px;background:transparent;
+  color:var(--muted);cursor:pointer;display:grid;place-items:center;
+  transition:color .14s,background .14s;
+}
+.pw-toggle:hover{color:var(--volt);background:rgba(200,255,26,.1)}
+.pw-toggle[aria-pressed="true"]{color:var(--volt)}
+
+/* ---------- Photo Crop & Adjust Modal ---------- */
+.crop-modal{
+  width:min(480px,100%);background:var(--card);border:1px solid var(--line-volt);
+  border-top:4px solid var(--volt);border-radius:var(--radius);padding:1.5rem;
+  box-shadow:0 24px 60px rgba(0,0,0,.75);
+  animation:modalPop .22s cubic-bezier(.22,1,.36,1) both;
+}
+.crop-modal h2{font-size:1.75rem;margin-bottom:.25rem}
+.crop-stage{
+  position:relative;margin:1rem auto;background:#050806;border:1px solid var(--line-volt);
+  border-radius:12px;overflow:hidden;touch-action:none;cursor:grab;user-select:none;
+  display:grid;place-items:center;
+}
+.crop-stage:active{cursor:grabbing}
+.crop-stage canvas{display:block;width:100%;height:auto}
+.crop-controls{
+  display:flex;align-items:center;gap:.85rem;margin:1rem 0 1.25rem;flex-wrap:wrap;
+}
+.crop-controls label{margin:0;white-space:nowrap}
+.crop-controls input[type="range"]{
+  flex:1;min-width:130px;accent-color:var(--volt);cursor:pointer;
+}
+
 @media print{
   html{color-scheme:light}
   .site-header,.site-footer,.no-print,.site-intro,.confirm-backdrop{display:none!important}

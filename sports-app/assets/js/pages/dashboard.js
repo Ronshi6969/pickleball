@@ -30,7 +30,12 @@ PT.ready.then(async session => {
       <div class="actions">
         ${b.status === 'cancelled' ? '<span class="badge badge-bad">Cancelled</span>' : ''}
         <a class="btn btn-sm btn-ghost" href="receipt.html?type=booking&id=${Number(b.id)}">Receipt</a>
-        ${b.cancellable ? `<form method="post" action="actions/cancel_booking.php" class="inline-form" data-confirm="Cancel this booking?">
+        ${b.cancellable ? `<form method="post" action="actions/cancel_booking.php" class="inline-form"
+          data-confirm="Are you sure you want to cancel your booking for ${esc(b.court_name)} at ${esc(b.venue_name)}?"
+          data-confirm-kicker="Cancel Booking"
+          data-confirm-title="Cancel booking?"
+          data-confirm-btn="Yes, cancel booking"
+          data-confirm-cancel="Keep booking">
           <input type="hidden" name="csrf" value="${esc(session.csrf)}"><input type="hidden" name="id" value="${Number(b.id)}">
           <button class="btn btn-sm btn-danger" type="submit">Cancel</button></form>` : ''}
       </div>

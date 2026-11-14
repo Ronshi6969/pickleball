@@ -191,24 +191,27 @@
     el.innerHTML = Object.keys(items).map(k => '<a href="' + root + 'manager/' + k + '.html" class="' + (current === k ? 'on' : '') + '">' + items[k] + '</a>').join('');
   }
 
-  /* ---------- "Are you sure?" on any form with data-confirm ---------- */
-  document.addEventListener('submit', e => {
-    const msg = e.target.getAttribute && e.target.getAttribute('data-confirm');
-    if (msg && !window.confirm(msg)) e.preventDefault();
-  });
-
-  /* ---------- Logout confirmation modal ---------- */
-  function confirmLogout(href) {
+  /* ---------- Custom HTML/CSS Confirmation Modal (for forms & logout) ---------- */
+  function showConfirm(opts) {
+    const {
+      kicker = 'Confirm Action',
+      title = 'Are you sure?',
+      message = '',
+      confirmText = 'Confirm',
+      cancelText = 'Cancel',
+      danger = true,
+      onConfirm = () => {}
+    } = opts || {};
     const backdrop = document.createElement('div');
     backdrop.className = 'confirm-backdrop';
     backdrop.innerHTML =
-      '<div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="logout-title">' +
-        '<div class="kicker">Confirm Action</div>' +
-        '<h2 id="logout-title">Log out?</h2>' +
-        '<p>Are you sure you want to log out of your Play Together Pickleball account?</p>' +
+      '<div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-title">' +
+        '<div class="kicker">' + esc(kicker) + '</div>' +
+        '<h2 id="confirm-title">' + esc(title) + '</h2>' +
+        '<p>' + esc(message) + '</p>' +
         '<div class="confirm-actions">' +
-          '<button type="button" class="btn btn-sm btn-ghost" data-cancel>Cancel</button>' +
-          '<a href="' + esc(href) + '" class="btn btn-sm btn-danger">Yes, log out</a>' +
+          '<button type="button" class="btn btn-sm btn-ghost" data-cancel>' + esc(cancelText) + '</button>' +
+          '<button type="button" class="btn btn-sm ' + (danger ? 'btn-danger' : 'btn-ink') + '" data-ok>' + esc(confirmText) + '</button>' +
         '</div>' +
       '</div>';
     const close = () => {
@@ -217,20 +220,277 @@
     };
     const onKey = e => { if (e.key === 'Escape') close(); };
     backdrop.addEventListener('click', e => {
-      if (e.target === backdrop || e.target.closest('[data-cancel]')) close();
+      if (e.target === backdrop || e.target.closest('[data-cancel]')) { close(); return; }
+      if (e.target.closest('[data-ok]')) { close(); onConfirm(); }
     });
     document.addEventListener('keydown', onKey);
     document.body.appendChild(backdrop);
-    const cancelBtn = backdrop.querySelector('[data-cancel]');
-    if (cancelBtn) cancelBtn.focus();
+    const okBtn = backdrop.querySelector('[data-ok]');
+    if (okBtn) okBtn.focus();
   }
+
+  document.addEventListener('submit', e => {
+    const form = e.target;
+    if (!form || !form.getAttribute) return;
+    if (form.dataset.confirmed === '1') {
+      form.dataset.confirmed = '';
+      return;
+    }
+    const msg = form.getAttribute('data-confirm');
+    if (!msg) return;
+    e.preventDefault();
+
+    let message = msg;
+    const slotSel = form.querySelector('select[name="slots"]');
+    if (slotSel && form.getAttribute('data-confirm-slots') === '1') {
+      message = msg.replace('{slots}', plural(slotSel.value, 'slot'));
+    }
+
+    showConfirm({
+      kicker: form.getAttribute('data-confirm-kicker') || 'Confirm Action',
+      title: form.getAttribute('data-confirm-title') || 'Are you sure?',
+      message,
+      confirmText: form.getAttribute('data-confirm-btn') || 'Confirm',
+      cancelText: form.getAttribute('data-confirm-cancel') || 'Back',
+      danger: form.getAttribute('data-confirm-kind') !== 'primary',
+      onConfirm: () => {
+        form.dataset.confirmed = '1';
+        form.submit();
+      }
+    });
+  });
 
   document.addEventListener('click', e => {
     const link = e.target.closest && e.target.closest('[data-logout]');
     if (!link) return;
     e.preventDefault();
-    confirmLogout(link.getAttribute('href'));
+    const href = link.getAttribute('href');
+    showConfirm({
+      kicker: 'Confirm Action',
+      title: 'Log out?',
+      message: 'Are you sure you want to log out of your Play Together Pickleball account?',
+      confirmText: 'Yes, log out',
+      cancelText: 'Cancel',
+      danger: true,
+      onConfirm: () => { location.href = href; }
+    });
   });
+
+  /* ---------- Show / Hide Password Toggle ---------- */
+  function initPasswordToggles() {
+    const eyeOpen = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+    const eyeClosed = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+    document.querySelectorAll('input[type="password"]').forEach(input => {
+      if (input.closest('.pw-wrap')) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'pw-wrap';
+      input.parentNode.insertBefore(wrap, input);
+      wrap.appendChild(input);
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pw-toggle';
+      btn.setAttribute('aria-label', 'Show password');
+      btn.setAttribute('aria-pressed', 'false');
+      btn.innerHTML = eyeOpen;
+      btn.addEventListener('click', () => {
+        const show = input.type === 'password';
+        input.type = show ? 'text' : 'password';
+        btn.setAttribute('aria-pressed', show ? 'true' : 'false');
+        btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+        btn.innerHTML = show ? eyeClosed : eyeOpen;
+      });
+      wrap.appendChild(btn);
+    });
+  }
+
+  /* ---------- Interactive Image Cropper & Adjuster ---------- */
+  function attachCropper(inputEl, opts) {
+    if (!inputEl) return;
+    const { aspect = 1, circle = true, outputWidth = 500, previewEl = null, previewClass = 'avatar' } = opts || {};
+    inputEl.addEventListener('change', () => {
+      const file = inputEl.files && inputEl.files[0];
+      if (!file || !file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const img = new Image();
+        img.onload = () => openCropModal(img, file);
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function openCropModal(img, origFile) {
+      const boxW = 360;
+      const boxH = Math.round(boxW / aspect);
+      const outW = outputWidth;
+      const outH = Math.round(outW / aspect);
+
+      let rotation = 0;
+      let zoom = 1;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      const backdrop = document.createElement('div');
+      backdrop.className = 'confirm-backdrop';
+      backdrop.innerHTML =
+        '<div class="crop-modal" role="dialog" aria-modal="true" aria-labelledby="crop-title">' +
+          '<div class="kicker">Adjust &amp; Crop Photo</div>' +
+          '<h2 id="crop-title">Frame your photo</h2>' +
+          '<p class="small muted" style="margin-bottom:.5rem">Drag the photo to reposition, and use the slider to zoom.</p>' +
+          '<div class="crop-stage"><canvas width="' + boxW + '" height="' + boxH + '"></canvas></div>' +
+          '<div class="crop-controls">' +
+            '<label for="crop-zoom">Zoom</label>' +
+            '<input id="crop-zoom" type="range" min="1" max="3" step="0.02" value="1">' +
+            '<button type="button" class="btn btn-sm btn-ghost" data-rotate>Rotate 90&deg;</button>' +
+          '</div>' +
+          '<div class="confirm-actions">' +
+            '<button type="button" class="btn btn-sm btn-ghost" data-cancel>Cancel</button>' +
+            '<button type="button" class="btn btn-sm btn-ink" data-apply>Apply crop</button>' +
+          '</div>' +
+        '</div>';
+      document.body.appendChild(backdrop);
+
+      const canvas = backdrop.querySelector('canvas');
+      const ctx = canvas.getContext('2d');
+      const zoomInput = backdrop.querySelector('#crop-zoom');
+
+      function getBaseScale() {
+        const swapped = rotation % 180 !== 0;
+        const iw = swapped ? img.height : img.width;
+        const ih = swapped ? img.width : img.height;
+        return Math.max(boxW / iw, boxH / ih);
+      }
+
+      function clampOffsets() {
+        const swapped = rotation % 180 !== 0;
+        const iw = swapped ? img.height : img.width;
+        const ih = swapped ? img.width : img.height;
+        const scale = getBaseScale() * zoom;
+        const maxX = Math.max(0, (iw * scale - boxW) / 2);
+        const maxY = Math.max(0, (ih * scale - boxH) / 2);
+        offsetX = Math.max(-maxX, Math.min(maxX, offsetX));
+        offsetY = Math.max(-maxY, Math.min(maxY, offsetY));
+      }
+
+      function draw(targetCtx, w, h, withOverlay) {
+        targetCtx.clearRect(0, 0, w, h);
+        targetCtx.save();
+        targetCtx.fillStyle = '#050806';
+        targetCtx.fillRect(0, 0, w, h);
+        const ratio = w / boxW;
+        const scale = getBaseScale() * zoom * ratio;
+        targetCtx.translate(w / 2 + offsetX * ratio, h / 2 + offsetY * ratio);
+        targetCtx.rotate((rotation * Math.PI) / 180);
+        targetCtx.drawImage(img, (-img.width * scale) / 2, (-img.height * scale) / 2, img.width * scale, img.height * scale);
+        targetCtx.restore();
+
+        if (withOverlay) {
+          targetCtx.save();
+          targetCtx.fillStyle = 'rgba(5, 8, 6, 0.58)';
+          targetCtx.beginPath();
+          targetCtx.rect(0, 0, w, h);
+          if (circle) {
+            const r = Math.min(w, h) * 0.46;
+            targetCtx.arc(w / 2, h / 2, r, 0, Math.PI * 2, true);
+          } else {
+            const pad = 10;
+            targetCtx.rect(pad, pad, w - pad * 2, h - pad * 2);
+          }
+          targetCtx.fill();
+
+          targetCtx.strokeStyle = '#c8ff1a';
+          targetCtx.lineWidth = 2.5;
+          targetCtx.beginPath();
+          if (circle) {
+            targetCtx.arc(w / 2, h / 2, Math.min(w, h) * 0.46, 0, Math.PI * 2);
+          } else {
+            targetCtx.rect(10, 10, w - 20, h - 20);
+          }
+          targetCtx.stroke();
+          targetCtx.restore();
+        }
+      }
+
+      function render() {
+        clampOffsets();
+        draw(ctx, boxW, boxH, true);
+      }
+      render();
+
+      let dragging = false;
+      let startX = 0;
+      let startY = 0;
+      canvas.addEventListener('pointerdown', e => {
+        dragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        canvas.setPointerCapture(e.pointerId);
+      });
+      canvas.addEventListener('pointermove', e => {
+        if (!dragging) return;
+        const rect = canvas.getBoundingClientRect();
+        const scalePx = boxW / rect.width;
+        offsetX += (e.clientX - startX) * scalePx;
+        offsetY += (e.clientY - startY) * scalePx;
+        startX = e.clientX;
+        startY = e.clientY;
+        render();
+      });
+      const stopDrag = () => { dragging = false; };
+      canvas.addEventListener('pointerup', stopDrag);
+      canvas.addEventListener('pointercancel', stopDrag);
+
+      zoomInput.addEventListener('input', () => {
+        zoom = parseFloat(zoomInput.value);
+        render();
+      });
+
+      backdrop.querySelector('[data-rotate]').addEventListener('click', () => {
+        rotation = (rotation + 90) % 360;
+        offsetX = 0;
+        offsetY = 0;
+        render();
+      });
+
+      const close = (keep) => {
+        if (!keep) inputEl.value = '';
+        document.removeEventListener('keydown', onKey);
+        backdrop.remove();
+      };
+      const onKey = e => { if (e.key === 'Escape') close(false); };
+      document.addEventListener('keydown', onKey);
+
+      backdrop.addEventListener('click', e => {
+        if (e.target === backdrop || e.target.closest('[data-cancel]')) close(false);
+      });
+
+      backdrop.querySelector('[data-apply]').addEventListener('click', () => {
+        const outCanvas = document.createElement('canvas');
+        outCanvas.width = outW;
+        outCanvas.height = outH;
+        const outCtx = outCanvas.getContext('2d');
+        draw(outCtx, outW, outH, false);
+
+        const mime = origFile.type === 'image/png' ? 'image/png' : 'image/jpeg';
+        const ext = mime === 'image/png' ? 'png' : 'jpg';
+        outCanvas.toBlob(blob => {
+          if (!blob) { close(false); return; }
+          const croppedFile = new File([blob], 'cropped.' + ext, { type: mime });
+          if (typeof DataTransfer !== 'undefined') {
+            const dt = new DataTransfer();
+            dt.items.add(croppedFile);
+            inputEl.files = dt.files;
+          }
+          if (previewEl) {
+            const url = URL.createObjectURL(croppedFile);
+            previewEl.innerHTML = '<img class="' + esc(previewClass) + '" src="' + esc(url) + '" alt="Cropped preview">';
+          }
+          close(true);
+        }, mime, 0.92);
+      });
+    }
+  }
 
   /* ---------- Selective scroll reveal (used on landing page cards only) ---------- */
   function reveal(selector) {
@@ -255,6 +515,7 @@
   }
 
   /* ---------- start ---------- */
+  initPasswordToggles();
   const ready = api('session.php').then(session => {
     buildHeader(session.user);
     buildFooter();
@@ -264,5 +525,5 @@
     return session;
   });
 
-  window.PT = { root, esc, money, hourLabel, timeLabel, dateLabel, plural, closeText, query, media, hourOptions, api, fillForm, showError, requireRole, reveal, ready };
+  window.PT = { root, esc, money, hourLabel, timeLabel, dateLabel, plural, closeText, query, media, hourOptions, api, fillForm, showError, requireRole, reveal, showConfirm, attachCropper, ready };
 })();

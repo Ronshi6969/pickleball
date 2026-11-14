@@ -67,13 +67,14 @@ if ($action === 'create') {
 $id = (int)($_POST['id'] ?? 0);
 try {
     db_begin();
-    $row = db_one("SELECT b.id FROM bookings AS b WITH (UPDLOCK, ROWLOCK) JOIN courts AS c ON c.id = b.court_id
+    $row = db_one("SELECT b.id, b.reference, c.name AS court_name FROM bookings AS b WITH (UPDLOCK, ROWLOCK)
+                   JOIN courts AS c ON c.id = b.court_id
                    WHERE b.id = ? AND c.venue_id = ? AND b.status = 'confirmed'", [$id, $vid]);
     if ($row) {
         db_run('DELETE FROM booking_slots WHERE booking_id = ?', [$id]);
         db_run("UPDATE bookings SET status = 'cancelled' WHERE id = ?", [$id]);
         db_commit();
-        flash('success', 'Booking cancelled. The hours are open again.');
+        flash('success', 'Booking for ' . $row['court_name'] . ' (Ref ' . $row['reference'] . ') was cancelled. The hours are open again.');
     } else {
         db_rollback();
         flash('error', 'Booking not found.');

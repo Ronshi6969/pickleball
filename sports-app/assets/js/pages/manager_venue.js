@@ -7,4 +7,12 @@ PT.ready.then(async session => {
   document.getElementById('close').innerHTML = PT.hourOptions(1, 24, venue.closing_hour, true);
   PT.fillForm(form, { name: venue.name, address: venue.address, city: venue.city, description: venue.description || '' });
   PT.fillForm(form, session.old);   // after a failed save, show what was typed
+
+  PT.attachCropper(document.getElementById('photo'), {
+    aspect: 16 / 9,
+    circle: false,
+    outputWidth: 960,
+    previewEl: document.getElementById('photo-box'),
+    previewClass: 'thumb'
+  });
 });

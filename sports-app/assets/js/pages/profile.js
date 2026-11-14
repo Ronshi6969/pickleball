@@ -9,4 +9,12 @@ PT.ready.then(async session => {
   form.elements.name.value = user.name;
   form.elements.skill.value = user.skill_level;
   PT.fillForm(form, session.old);
+
+  PT.attachCropper(document.getElementById('avatar'), {
+    aspect: 1,
+    circle: true,
+    outputWidth: 500,
+    previewEl: document.getElementById('avatar-box'),
+    previewClass: 'avatar'
+  });
 });

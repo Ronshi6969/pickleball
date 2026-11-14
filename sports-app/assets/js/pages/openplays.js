@@ -28,7 +28,12 @@ PT.ready.then(async session => {
     if (!user) return `<a class="btn btn-ink" href="${esc(loginHref)}">Log in to join <span class="btn-arrow">&rarr;</span></a>`;
     if (p.myslots > 0) {
       return `<p><span class="badge badge-ok">You're in with ${PT.plural(p.myslots, 'slot')}</span></p>
-        <form method="post" action="actions/openplay_action.php" class="inline-form" data-confirm="Leave this open play?">
+        <form method="post" action="actions/openplay_action.php" class="inline-form"
+          data-confirm="Are you sure you want to leave ${esc(p.title)}?"
+          data-confirm-kicker="Open Play"
+          data-confirm-title="Leave game?"
+          data-confirm-btn="Yes, leave game"
+          data-confirm-cancel="Stay in game">
           <input type="hidden" name="csrf" value="${esc(session.csrf)}">
           <input type="hidden" name="action" value="leave">
           <input type="hidden" name="open_play_id" value="${Number(p.id)}">
@@ -38,7 +43,14 @@ PT.ready.then(async session => {
     if (p.left < 1) return '<span class="badge badge-bad">Full</span>';
     let opts = '';
     for (let i = 1; i <= Math.min(p.left, 10); i++) opts += `<option value="${i}">${i}</option>`;
-    return `<form method="post" action="actions/openplay_action.php" class="join-form">
+    return `<form method="post" action="actions/openplay_action.php" class="join-form"
+        data-confirm="Are you sure you want to join ${esc(p.title)} ({slots})?"
+        data-confirm-slots="1"
+        data-confirm-kicker="Confirm Join"
+        data-confirm-title="Join open play?"
+        data-confirm-btn="Yes, join game"
+        data-confirm-cancel="Not now"
+        data-confirm-kind="primary">
         <input type="hidden" name="csrf" value="${esc(session.csrf)}">
         <input type="hidden" name="action" value="join">
         <input type="hidden" name="open_play_id" value="${Number(p.id)}">
