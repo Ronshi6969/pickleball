@@ -184,16 +184,18 @@ GO
 DECLARE @today DATE = CAST(GETDATE() AS DATE);
 -- bcrypt hash of the word "password"
 DECLARE @pw NVARCHAR(255) = N'$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
+-- bcrypt hash of "admin12345"
+DECLARE @adminPw NVARCHAR(255) = N'$2y$10$wOH2EjtG8evvyeoDacsh4O0g4eb4GH.O9YtvGF5FInj9/hrIbWTpu';
 
 INSERT INTO dbo.sports (name) VALUES (N'Pickleball');
 
 INSERT INTO dbo.users (name, email, password_hash, role, skill_level) VALUES
- (N'John M. Reyes',  N'john@example.com',     @pw, 'player',  'intermediate'),
- (N'Maria Santos',   N'maria@example.com',    @pw, 'player',  'beginner'),
- (N'Paolo Cruz',     N'paolo@example.com',    @pw, 'player',  'advanced'),
- (N'Alab Admin',     N'alab@example.com',     @pw, 'manager', 'advanced'),
- (N'Pickle Admin',   N'pickle@example.com',   @pw, 'manager', 'advanced'),
- (N'Playzone Admin', N'playzone@example.com', @pw, 'manager', 'advanced');
+ (N'John M. Reyes',  N'john@example.com',     @pw,      'player',  'intermediate'),
+ (N'Maria Santos',   N'maria@example.com',    @pw,      'player',  'beginner'),
+ (N'Paolo Cruz',     N'paolo@example.com',    @pw,      'player',  'advanced'),
+ (N'Alab Admin',     N'admin@example.com',    @adminPw, 'manager', 'advanced'),
+ (N'Pickle Admin',   N'pickle@example.com',   @pw,      'manager', 'advanced'),
+ (N'Playzone Admin', N'playzone@example.com', @pw,      'manager', 'advanced');
 
 INSERT INTO dbo.user_sports (user_id, sport_id) VALUES (1,1),(2,1),(3,1);
 

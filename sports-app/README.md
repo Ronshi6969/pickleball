@@ -43,12 +43,12 @@ Flow when a form is submitted (example: Join game):
 6. Open `http://localhost/sports-app/setup_check.html`. Everything should be green. Then **delete `setup_check.html` and `api/setup_check.php`**.
 7. Open `http://localhost/sports-app/index.html`
 
-## Demo accounts (password for all: `password`)
+## Demo accounts (players password: `password` | admin password: `admin12345`)
 | Role    | Email                  |
 |---------|------------------------|
 | Player  | john@example.com       |
 | Player  | maria@example.com      |
-| Manager | alab@example.com (ALAB Court) |
+| Admin   | admin@example.com (ALAB Court, password: `admin12345`) |
 | Manager | pickle@example.com (Play and Pickle) |
 | Manager | playzone@example.com (Playzone) |
 
