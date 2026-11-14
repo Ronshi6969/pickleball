@@ -20,9 +20,8 @@ if (!$errors) {
     catch (RuntimeException $ex) { $errors[] = $ex->getMessage(); }
 }
 if (!$errors) {
-    $pdo = db();
     try {
-        $pdo->beginTransaction();
+        db_begin();
         if ($avatar !== null) {
             db_run('UPDATE users SET name = ?, skill_level = ?, avatar = ? WHERE id = ?', [$name, $skill, $avatar, $uid]);
         } else {
@@ -30,11 +29,11 @@ if (!$errors) {
         }
         db_run('DELETE FROM user_sports WHERE user_id = ?', [$uid]);
         db_run('INSERT INTO user_sports (user_id, sport_id) VALUES (?, ?)', [$uid, $pickleId]);
-        $pdo->commit();
+        db_commit();
         flash('success', 'Profile saved.');
         redirect('dashboard.html');
-    } catch (PDOException $ex) {
-        if ($pdo->inTransaction()) { $pdo->rollBack(); }
+    } catch (SqlsrvException $ex) {
+        db_rollback();
         $errors[] = 'Could not save your profile. Please try again.';
     }
 }

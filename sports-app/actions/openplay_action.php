@@ -6,13 +6,12 @@ $user = require_login('player');
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { redirect('openplays.html'); }
 csrf_check();
 
-$pdo    = db();
 $action = $_POST['action'] ?? '';
 $playId = (int)($_POST['open_play_id'] ?? 0);
 $back   = 'openplays.html#play-' . $playId;
 
 try {
-    $pdo->beginTransaction();
+    db_begin();
 
     // WITH (UPDLOCK, ROWLOCK) locks this open play row until commit (SQL Server's "FOR UPDATE")
     $play = db_one('SELECT * FROM open_plays WITH (UPDLOCK, ROWLOCK) WHERE id = ?', [$playId]);
@@ -42,23 +41,23 @@ try {
             db_run('INSERT INTO open_play_registrations (open_play_id, user_id, slots, amount) VALUES (?, ?, ?, ?)',
                    [$playId, $user['id'], $slots, $amount]);
         }
-        $pdo->commit();
+        db_commit();
         flash('success', "You're in! $slots slot" . ($slots > 1 ? 's' : '') . ' reserved for ' . $play['title'] . '. Pay at the venue.');
 
     } elseif ($action === 'leave') {
         if (!$existing || $existing['status'] !== 'joined') { throw new RuntimeException('You are not registered for this game.'); }
         db_run("UPDATE open_play_registrations SET status = 'cancelled' WHERE id = ?", [$existing['id']]);
-        $pdo->commit();
+        db_commit();
         flash('success', 'You left ' . $play['title'] . '. Your slots are open again.');
 
     } else {
         throw new RuntimeException('Unknown action.');
     }
-} catch (RuntimeException $ex) {
-    if ($pdo->inTransaction()) { $pdo->rollBack(); }
-    flash('error', $ex->getMessage());
-} catch (PDOException $ex) {
-    if ($pdo->inTransaction()) { $pdo->rollBack(); }
+} catch (SqlsrvException $ex) {
+    db_rollback();
     flash('error', 'Something went wrong. Please try again.');
+} catch (RuntimeException $ex) {
+    db_rollback();
+    flash('error', $ex->getMessage());
 }
 redirect($back);

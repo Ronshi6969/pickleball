@@ -5,7 +5,6 @@ $user = require_login('player');
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { redirect('venues.html'); }
 csrf_check();
 
-$pdo     = db();
 $courtId = (int)($_POST['court_id'] ?? 0);
 $date    = $_POST['date'] ?? '';
 $start   = (int)($_POST['start_hour'] ?? -1);
@@ -22,7 +21,7 @@ try {
         throw new RuntimeException('Choose hours within the venue opening times.');
     }
 
-    $pdo->beginTransaction();
+    db_begin();
 
     // Re-check every hour right now (someone may have booked it while this page was open)
     $status = [];
@@ -45,18 +44,18 @@ try {
                [$bookingId, $courtId, $date, $h]);
     }
 
-    $pdo->commit();
+    db_commit();
     redirect('booking_confirmation.html?ref=' . urlencode($ref));
 
-} catch (RuntimeException $ex) {
-    if ($pdo->inTransaction()) { $pdo->rollBack(); }
-    flash('error', $ex->getMessage());
-    redirect($back);
-} catch (PDOException $ex) {
-    if ($pdo->inTransaction()) { $pdo->rollBack(); }
+} catch (SqlsrvException $ex) {
+    db_rollback();
     // UNIQUE key violation: another player got the same hour a split second earlier
     flash('error', is_duplicate_key($ex)
         ? 'Someone just booked one of those hours. Pick another time.'
         : 'Something went wrong while booking. Please try again.');
+    redirect($back);
+} catch (RuntimeException $ex) {
+    db_rollback();
+    flash('error', $ex->getMessage());
     redirect($back);
 }

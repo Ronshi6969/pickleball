@@ -28,17 +28,16 @@ if (!$errors && db_val('SELECT 1 FROM users WHERE email = ?', [$old['email']])) 
 }
 
 if (!$errors) {
-    $pdo = db();
     try {
-        $pdo->beginTransaction();   // user + venue are created together or not at all
+        db_begin();   // user + venue are created together or not at all
         $uid = db_insert("INSERT INTO users (name, email, password_hash, role)
                           OUTPUT INSERTED.id VALUES (?, ?, ?, 'manager')",
                          [$old['name'], $old['email'], password_hash($pass, PASSWORD_DEFAULT)]);
         db_run('INSERT INTO venues (manager_id, name, address, city, opening_hour, closing_hour) VALUES (?, ?, ?, ?, ?, ?)',
                [$uid, $old['venue'], $old['address'], $old['city'], $old['open'], $old['close']]);
-        $pdo->commit();
-    } catch (PDOException $ex) {
-        if ($pdo->inTransaction()) { $pdo->rollBack(); }
+        db_commit();
+    } catch (SqlsrvException $ex) {
+        db_rollback();
         $errors[] = is_duplicate_key($ex) ? 'That email is already registered.' : 'Could not create the venue account. Please try again.';
     }
     if (!$errors) {

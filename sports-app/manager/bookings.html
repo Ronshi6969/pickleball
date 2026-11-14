@@ -17,7 +17,27 @@
 <main>
 <nav id="manager-nav"></nav>
 <div class="container band" style="padding-top:1rem">
+  <div class="kicker">Pickleball Court Rentals</div>
   <h1>Court rentals</h1>
+  <div id="create-area"></div>
+  <div id="create-wrap" hidden>
+    <form method="post" action="../actions/manager_bookings.php" id="rental-form" class="form-card" style="margin-bottom:2rem" novalidate>
+      <h2 style="font-size:1.7rem">Create a court rental</h2>
+      <input type="hidden" name="csrf" value="">
+      <input type="hidden" name="action" value="create">
+      <input type="hidden" name="show" value="upcoming">
+      <div class="row row-3">
+        <div class="field"><label for="court_id">Court</label><select id="court_id" name="court_id"></select></div>
+        <div class="field"><label for="user_id">Player</label><select id="user_id" name="user_id"></select></div>
+        <div class="field"><label for="booking_date">Date</label><input type="date" id="booking_date" name="booking_date" required></div>
+      </div>
+      <div class="row row-2">
+        <div class="field"><label for="start_hour">From</label><select id="start_hour" name="start_hour"></select></div>
+        <div class="field"><label for="end_hour">Until</label><select id="end_hour" name="end_hour"></select></div>
+      </div>
+      <button class="btn" type="submit">Create court rental <span class="btn-arrow">&rarr;</span></button>
+    </form>
+  </div>
   <div class="tabs" id="tabs"></div>
   <div id="rows-box"></div>
 </div>

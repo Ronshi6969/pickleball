@@ -42,7 +42,7 @@ if ($action === 'save') {
     try {
         db_run('DELETE FROM courts WHERE id = ? AND venue_id = ?', [$id, $vid]);
         flash('success', 'Court deleted.');
-    } catch (PDOException $ex) {   // foreign key: the court already has bookings
+    } catch (SqlsrvException $ex) {   // foreign key: the court already has bookings
         flash('error', 'This court has booking history, so it cannot be deleted. Turn it off instead.');
     }
 }

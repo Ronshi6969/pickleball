@@ -1,36 +1,45 @@
 <?php
-// ---- Edit these to match YOUR SQL Server (see README.md) ----
-// Server name examples:
-//   'localhost\SQLEXPRESS'   -> SQL Server Express (named instance)  <- most common
-//   'localhost'              -> default instance
-//   'localhost,1433'         -> specific port
-// Use the SAME name you type in the SSMS "Server name" box.
-define('DB_SERVER', 'LAPTOP-9M40AKII\SQLEXPRESS');
-define('DB_NAME', 'sports_hub');
+//variables for the database details
+$serverName = "LAPTOP-9M40AKII\SQLEXPRESS";
+$connectionOptions = [
+    "Database" => "DLSU",
+    "uid" => "",
+    "PWD" => "",
+    "CharacterSet" => "UTF-8",
+    "ReturnDatesAsStrings" => true,
+    "TrustServerCertificate" => true
+];
 
-// Leave DB_USER empty ('') to use Windows Authentication (same as SSMS default).
-// To use a SQL login instead, fill in both (see database/optional_sql_login.sql).
-define('DB_USER', '');
-define('DB_PASS', '');
+define('DB_SERVER', $serverName);
+define('DB_NAME', $connectionOptions['Database']);
+define('DB_USER', $connectionOptions['uid']);
+define('DB_PASS', $connectionOptions['PWD']);
 
 define('BASE_URL', '/pickleball/sports-app'); // folder name inside htdocs
 
 date_default_timezone_set('Asia/Manila');
 
-// One shared PDO connection (PDO_SQLSRV). Prepared statements everywhere = no SQL injection.
-function db(): PDO
+class SqlsrvException extends RuntimeException
 {
-    static $pdo = null;
-    if ($pdo === null) {
-        // TrustServerCertificate=1 lets ODBC Driver 18 connect to a local SQL Server without a CA certificate.
-        $dsn = 'sqlsrv:Server=' . DB_SERVER . ';Database=' . DB_NAME . ';TrustServerCertificate=1;LoginTimeout=5';
-        $options = [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ];
-        $pdo = DB_USER === ''
-            ? new PDO($dsn, null, null, $options)          // Windows Authentication
-            : new PDO($dsn, DB_USER, DB_PASS, $options);   // SQL Server Authentication
+    public array $errors;
+    public function __construct(string $message, array $errors = [])
+    {
+        $this->errors = $errors;
+        $code = (int)($errors[0]['code'] ?? 0);
+        parent::__construct($message, $code);
     }
-    return $pdo;
+}
+
+//connection to the database using sqlsrv_connect (same format as Aguirri lab)
+function db()
+{
+    static $conn = null;
+    if ($conn === null) {
+        global $serverName, $connectionOptions;
+        $conn = sqlsrv_connect($serverName, $connectionOptions);
+        if ($conn === false) {
+            throw new SqlsrvException('Could not connect to SQL Server.', sqlsrv_errors() ?: []);
+        }
+    }
+    return $conn;
 }

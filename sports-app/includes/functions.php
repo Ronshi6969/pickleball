@@ -16,61 +16,100 @@ function pickleball_sport_id(): int
     return $id;
 }
 
-/* ---------- database shortcuts (all use prepared statements) ---------- */
-// Each helper closes its cursor so no result set is left open (important for SQL Server transactions).
+/* ---------- database shortcuts (procedural sqlsrv_* with parameterized queries) ---------- */
+function db_in_tx(?bool $set = null): bool
+{
+    static $inTx = false;
+    if ($set !== null) { $inTx = $set; }
+    return $inTx;
+}
+function db_begin(): void
+{
+    if (!sqlsrv_begin_transaction(db())) {
+        throw new SqlsrvException('Could not begin transaction.', sqlsrv_errors() ?: []);
+    }
+    db_in_tx(true);
+}
+function db_commit(): void
+{
+    sqlsrv_commit(db());
+    db_in_tx(false);
+}
+function db_rollback(): void
+{
+    if (db_in_tx()) {
+        sqlsrv_rollback(db());
+        db_in_tx(false);
+    }
+}
+function db_query(string $sql, array $params = [])
+{
+    $stmt = sqlsrv_query(db(), $sql, $params);
+    if ($stmt === false) {
+        throw new SqlsrvException('Database query failed.', sqlsrv_errors() ?: []);
+    }
+    return $stmt;
+}
 function db_all(string $sql, array $params = []): array
 {
-    $st = db()->prepare($sql);
-    $st->execute($params);
-    $rows = $st->fetchAll();
-    $st->closeCursor();
+    $stmt = db_query($sql, $params);
+    $rows = [];
+    while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+        $rows[] = $row;
+    }
+    sqlsrv_free_stmt($stmt);
     return $rows;
 }
 function db_one(string $sql, array $params = []): ?array
 {
-    $st = db()->prepare($sql);
-    $st->execute($params);
-    $row = $st->fetch();
-    $st->closeCursor();
+    $stmt = db_query($sql, $params);
+    $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+    sqlsrv_free_stmt($stmt);
     return $row ?: null;
 }
 function db_val(string $sql, array $params = [])
 {
-    $st = db()->prepare($sql);
-    $st->execute($params);
-    $val = $st->fetchColumn();
-    $st->closeCursor();
-    return $val;
+    $stmt = db_query($sql, $params);
+    $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_NUMERIC);
+    sqlsrv_free_stmt($stmt);
+    return $row ? $row[0] : false;
 }
 function db_col(string $sql, array $params = []): array
 {
-    $st = db()->prepare($sql);
-    $st->execute($params);
-    $vals = $st->fetchAll(PDO::FETCH_COLUMN);
-    $st->closeCursor();
+    $stmt = db_query($sql, $params);
+    $vals = [];
+    while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_NUMERIC)) {
+        $vals[] = $row[0];
+    }
+    sqlsrv_free_stmt($stmt);
     return $vals;
 }
 function db_run(string $sql, array $params = []): int
 {
-    $st = db()->prepare($sql);
-    $st->execute($params);
-    $n = $st->rowCount();
-    $st->closeCursor();
-    return $n;
+    $stmt = db_query($sql, $params);
+    $n = sqlsrv_rows_affected($stmt);
+    sqlsrv_free_stmt($stmt);
+    return $n === false ? 0 : $n;
 }
 // INSERT ... OUTPUT INSERTED.id VALUES (...)  -> returns the new IDENTITY value
 function db_insert(string $sql, array $params = []): int
 {
-    $st = db()->prepare($sql);
-    $st->execute($params);
-    $id = (int)$st->fetchColumn();
-    $st->closeCursor();
-    return $id;
+    $stmt = db_query($sql, $params);
+    $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_NUMERIC);
+    sqlsrv_free_stmt($stmt);
+    return $row ? (int)$row[0] : 0;
 }
 // SQL Server error 2627 / 2601 = UNIQUE constraint violation (SQLSTATE 23000)
-function is_duplicate_key(PDOException $e): bool
+function is_duplicate_key(Throwable $e): bool
 {
-    return (string)$e->getCode() === '23000' || in_array((int)($e->errorInfo[1] ?? 0), [2601, 2627], true);
+    if ($e instanceof SqlsrvException) {
+        foreach ($e->errors as $err) {
+            if ((string)($err['SQLSTATE'] ?? '') === '23000' || in_array((int)($err['code'] ?? 0), [2601, 2627], true)) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 // Escape characters that have a special meaning inside a T-SQL LIKE pattern
 function like_escape(string $s): string

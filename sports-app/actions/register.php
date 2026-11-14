@@ -23,16 +23,15 @@ if (!$errors && db_val('SELECT 1 FROM users WHERE email = ?', [$email])) {
 }
 
 if (!$errors) {
-    $pdo = db();
     try {
-        $pdo->beginTransaction();   // user + chosen sports are saved together or not at all
+        db_begin();   // user + pickleball sport preference saved together or not at all
         $uid = db_insert("INSERT INTO users (name, email, password_hash, role, skill_level)
                           OUTPUT INSERTED.id VALUES (?, ?, ?, 'player', ?)",
                          [$name, $email, password_hash($pass, PASSWORD_DEFAULT), $skill]);
         db_run('INSERT INTO user_sports (user_id, sport_id) VALUES (?, ?)', [$uid, $pickleId]);
-        $pdo->commit();
-    } catch (PDOException $ex) {
-        if ($pdo->inTransaction()) { $pdo->rollBack(); }
+        db_commit();
+    } catch (SqlsrvException $ex) {
+        db_rollback();
         $errors[] = is_duplicate_key($ex) ? 'That email is already registered. Try logging in.' : 'Could not create your account. Please try again.';
     }
     if (!$errors) {

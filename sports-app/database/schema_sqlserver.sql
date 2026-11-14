@@ -1,20 +1,12 @@
 -- =====================================================================
--- Play Together: Sports Hub  |  SQL Server (T-SQL) schema + demo data
--- Run in SQL Server Management Studio (SSMS):
+-- Play Together: Pickleball Club  |  SQL Server (T-SQL) schema + demo data
+-- Run in SQL Server Management Studio (SSMS) with DLSU selected:
 --   File > Open > File... > pick this file > press Execute (F5)
--- It is safe to run again: it drops and recreates all tables.
--- Demo password for ALL demo accounts: password
+-- It is safe to run again: it drops and recreates these 10 tables only.
+-- Demo password: players = "password" | admin@example.com = "admin12345"
 -- =====================================================================
 
--- 1) Create the database if it does not exist yet
-IF DB_ID(N'sports_hub') IS NULL
-    CREATE DATABASE sports_hub;
-GO
-
-USE sports_hub;
-GO
-
--- 2) Drop old tables (children first, because of foreign keys)
+-- 1) Drop old tables (children first, because of foreign keys)
 IF OBJECT_ID(N'dbo.open_play_registrations', N'U') IS NOT NULL DROP TABLE dbo.open_play_registrations;
 IF OBJECT_ID(N'dbo.open_plays',              N'U') IS NOT NULL DROP TABLE dbo.open_plays;
 IF OBJECT_ID(N'dbo.booking_slots',           N'U') IS NOT NULL DROP TABLE dbo.booking_slots;
