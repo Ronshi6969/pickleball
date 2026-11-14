@@ -1,34 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Log in | Play Together</title>
+  <title>Log in | Play Together Pickleball</title>
+  <link rel="icon" type="image/png" href="assets/img/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Outfit:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body data-root="" data-nav="">
-<!-- header, footer and messages are filled in by assets/js/common.js -->
-<header class="site-header" id="site-header"></header>
-<div id="flashes"></div>
-<main>
-<div class="container">
-  <form method="post" action="actions/login.php" id="login-form" class="form-card form-narrow" novalidate>
-    <h1 style="font-size:2.4rem">Log in</h1>
-    <input type="hidden" name="csrf" value="">
-    <div class="field"><label for="email">Email</label>
-      <input type="email" id="email" name="email" required autocomplete="email"></div>
-    <div class="field"><label for="password">Password</label>
-      <input type="password" id="password" name="password" required autocomplete="current-password"></div>
-    <button class="btn btn-block" type="submit">Log in</button>
-    <p class="small center" style="margin-top:1rem">New here? <a href="register.html">Join as a player</a> or <a href="venue_register.html">list your venue</a>.</p>
-  </form>
-</div>
-</main>
-<footer class="site-footer" id="site-footer"></footer>
-<script src="assets/js/common.js"></script>
-<script src="assets/js/pages/login.js"></script>
+  <!-- header, footer and messages are filled in by assets/js/common.js -->
+  <header class="site-header" id="site-header"></header>
+  <div id="flashes"></div>
+  <main>
+    <div class="container">
+      <form method="post" action="actions/login.php" id="login-form" class="form-card form-narrow" novalidate>
+        <div class="kicker">Play Together Pickleball</div>
+        <h1 style="font-size:2.6rem">Log in</h1>
+        <input type="hidden" name="csrf" value="">
+        <div class="field"><label for="email">Email</label>
+          <input type="email" id="email" name="email" required autocomplete="email">
+        </div>
+        <div class="field"><label for="password">Password</label>
+          <input type="password" id="password" name="password" required autocomplete="current-password">
+        </div>
+        <button class="btn btn-block" type="submit">Log in <span class="btn-arrow">&rarr;</span></button>
+        <p class="small center muted" style="margin-top:1rem">New here? <a href="register.html" class="text-volt">Join
+            as a player</a> or <a href="venue_register.html" class="text-volt">list your venue</a>.</p>
+      </form>
+    </div>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="assets/js/common.js"></script>
+  <script src="assets/js/pages/login.js"></script>
 </body>
+
 </html>

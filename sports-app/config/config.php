@@ -5,7 +5,7 @@
 //   'localhost'              -> default instance
 //   'localhost,1433'         -> specific port
 // Use the SAME name you type in the SSMS "Server name" box.
-define('DB_SERVER', 'localhost\SQLEXPRESS');
+define('DB_SERVER', 'LAPTOP-9M40AKII\SQLEXPRESS');
 define('DB_NAME', 'sports_hub');
 
 // Leave DB_USER empty ('') to use Windows Authentication (same as SSMS default).
@@ -13,7 +13,7 @@ define('DB_NAME', 'sports_hub');
 define('DB_USER', '');
 define('DB_PASS', '');
 
-define('BASE_URL', '/sports-app'); // folder name inside htdocs
+define('BASE_URL', '/pickleball/sports-app'); // folder name inside htdocs
 
 date_default_timezone_set('Asia/Manila');
 

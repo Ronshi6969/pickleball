@@ -22,9 +22,9 @@ $id = (int)($_POST['id'] ?? 0);
 
 if ($action === 'save') {
     $form = ['title' => '', 'description' => '', 'play_date' => '', 'start_time' => '', 'end_time' => '',
-             'sport_id' => 0, 'skill_level' => 'all', 'courts_used' => 1, 'max_slots' => 20, 'price' => ''];
+             'skill_level' => 'all', 'courts_used' => 1, 'max_slots' => 20, 'price' => ''];
     foreach (array_keys($form) as $k) { $form[$k] = trim($_POST[$k] ?? $form[$k]); }
-    $sportOk  = db_val('SELECT 1 FROM sports WHERE id = ?', [(int)$form['sport_id']]);
+    $pickleId = pickleball_sport_id();
     $existing = $id ? own_play($id, $vid) : null;
     $errors = [];
 
@@ -34,7 +34,6 @@ if ($action === 'save') {
     if (!preg_match('/^\d{2}:\d{2}$/', $form['start_time']) || !preg_match('/^\d{2}:\d{2}$/', $form['end_time']) || $form['end_time'] <= $form['start_time']) {
         $errors[] = 'End time must be later than start time.';
     }
-    if (!$sportOk)                                                             { $errors[] = 'Choose a sport.'; }
     if (!in_array($form['skill_level'], ['all', 'beginner', 'intermediate', 'advanced'], true)) { $errors[] = 'Choose a skill level.'; }
     if ((int)$form['courts_used'] < 1 || (int)$form['courts_used'] > 50)       { $errors[] = 'Courts used must be 1 or more.'; }
     if ((int)$form['max_slots'] < 1 || (int)$form['max_slots'] > 500)          { $errors[] = 'Total slots must be between 1 and 500.'; }
@@ -46,7 +45,7 @@ if ($action === 'save') {
 
     if (!$errors) {
         $vals = [$form['title'], $form['description'] ?: null, $form['play_date'], $form['start_time'], $form['end_time'],
-                 (int)$form['sport_id'], $form['skill_level'], (int)$form['courts_used'], (int)$form['max_slots'], (float)$form['price']];
+                 $pickleId, $form['skill_level'], (int)$form['courts_used'], (int)$form['max_slots'], (float)$form['price']];
         if ($id) {
             db_run('UPDATE open_plays SET title=?, description=?, play_date=?, start_time=?, end_time=?, sport_id=?, skill_level=?, courts_used=?, max_slots=?, price=? WHERE id=? AND venue_id=?',
                    array_merge($vals, [$id, $vid]));

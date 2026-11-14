@@ -3,49 +3,115 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sports hub and community | Play Together</title>
+  <title>Play Together | Pickleball Club &amp; Court Booking</title>
+  <link rel="icon" type="image/png" href="assets/img/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body data-root="" data-nav="">
+<body data-root="" data-nav="home">
 <!-- header, footer and messages are filled in by assets/js/common.js -->
 <header class="site-header" id="site-header"></header>
 <div id="flashes"></div>
 <main>
-<section class="container hero">
-  <div>
-    <h1>Play<br>Together</h1>
-    <p style="font-size:1.15rem;max-width:30rem">Book a court by the hour or drop into an open play near you. Find the game, bring your paddle.</p>
-    <div class="hero-actions">
-      <a class="pill-xl" href="openplays.html">Open play</a>
-      <a class="pill-xl" href="venues.html">Court rental</a>
+<section class="hero-wrap">
+  <div class="container hero">
+    <div>
+      <div class="kicker">Pickleball Only &middot; Cavite Club &middot; <span class="script-accent" style="font-size:.95rem;color:var(--chalk)">Estd 2025</span></div>
+      <h1 class="hero-title">Play<br><span class="volt-line">Pickleball.</span><br>Live Better.</h1>
+      <p class="hero-sub">Premium pickleball courts. Epic open plays. Real community. Book a court by the hour or drop into a match near you.</p>
+      <div class="hero-actions">
+        <a class="btn" href="venues.html">Book your court <span class="btn-arrow">&rarr;</span></a>
+        <a class="btn btn-ghost" href="openplays.html">Join open play <span class="btn-arrow">&rarr;</span></a>
+      </div>
+      <div class="hero-meta">
+        <div><strong>100% Pickleball</strong>Dedicated courts only</div>
+        <div><strong>Hourly Booking</strong>Real-time open slots</div>
+        <div><strong>All Skill Levels</strong>Beginner to advanced</div>
+      </div>
+    </div>
+    <div class="court-stage">
+      <div class="court-art" role="img" aria-label="Night pickleball court with electric lime net and perforated pickleball"></div>
+      <div class="court-badge-strip">
+        <span class="live-pill">Courts Open Daily 6AM&ndash;11PM</span>
+        <span class="script-accent" style="color:var(--chalk);font-size:1.05rem">Dink &amp; Smash</span>
+      </div>
     </div>
   </div>
-  <div class="court-art" role="img" aria-label="Illustration of a pickleball court"></div>
 </section>
 
-<section class="band band-pink" id="open-plays">
+<section class="band band-court">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="kicker">Why Pickleball?</div>
+    <h2>Easy to learn. <span class="text-volt">Hard to stop.</span></h2>
+    <p class="muted" style="max-width:34rem">Fast-paced, social, and seriously fun. More than a game &mdash; it&rsquo;s your nightly court ritual in Cavite.</p>
+    <div class="feature-grid">
+      <article class="feature-card">
+        <div class="feature-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><line x1="12" y1="5" x2="12" y2="19"/><line x1="8" y1="5" x2="8" y2="19"/><line x1="16" y1="5" x2="16" y2="19"/></svg>
+        </div>
+        <h3>Pro Courts</h3>
+        <p>Dedicated indoor and covered pickleball courts with LED lighting and tournament lines.</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Open Play Community</h3>
+        <p>Join rotating doubles and skill-matched social sessions with players across Cavite.</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <h3>Instant Slots</h3>
+        <p>Pick your date, tap a continuous block of hours, and lock your court with zero double-booking.</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h3>Ladders &amp; Mixers</h3>
+        <p>Morning rallies, night ladders, and weekend socials built strictly for pickleball players.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band band-void" id="open-plays">
   <div class="container">
-    <div class="section-head"><h2>Open plays this week</h2><a class="btn btn-ghost" href="openplays.html">See all open plays</a></div>
+    <div class="section-head">
+      <div>
+        <div class="kicker">Drop-In Sessions</div>
+        <h2 style="margin-bottom:0">Open plays this week</h2>
+      </div>
+      <a class="btn btn-ghost" href="openplays.html">See all open plays <span class="btn-arrow">&rarr;</span></a>
+    </div>
     <div id="plays-box"></div>
   </div>
 </section>
 
-<section class="band band-lime">
-  <div class="container">
-    <div class="section-head"><h2>Featured courts</h2><a class="btn btn-ghost" href="venues.html">Browse all courts</a></div>
+<section class="band band-court">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="section-head">
+      <div>
+        <div class="kicker">Hourly Rentals</div>
+        <h2 style="margin-bottom:0">Featured pickleball courts</h2>
+      </div>
+      <a class="btn btn-ghost" href="venues.html">Browse all courts <span class="btn-arrow">&rarr;</span></a>
+    </div>
     <div class="grid" id="featured-box"></div>
   </div>
 </section>
 
-<section class="band band-sky" id="cta" hidden>
+<section class="band band-lime" id="cta" hidden>
   <div class="container center">
-    <h2>Ready to play?</h2>
-    <p>Make a free player account to book courts and join open plays. Run a venue? List your courts and manage bookings in one place.</p>
-    <div class="actions" style="justify-content:center">
-      <a class="btn btn-ink" href="register.html">Join as a player</a>
+    <div class="kicker" style="justify-content:center">Rally Together &middot; Win Together</div>
+    <h2>Ready to step onto the court?</h2>
+    <p class="muted" style="max-width:34rem;margin-inline:auto">Create a free player account to book pickleball courts and join open plays. Own a pickleball facility? List your venue and manage slots in one place.</p>
+    <div class="actions" style="justify-content:center;margin-top:1.25rem">
+      <a class="btn" href="register.html">Join as a player <span class="btn-arrow">&rarr;</span></a>
       <a class="btn btn-ghost" href="venue_register.html">List your venue</a>
     </div>
   </div>

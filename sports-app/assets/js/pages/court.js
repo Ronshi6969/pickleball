@@ -10,7 +10,7 @@ PT.ready.then(async session => {
     ${media(court.photo, court.venue_name)}
     <h1 style="margin-top:1rem;font-size:2.6rem">${esc(court.name)}</h1>
     <p><strong>${esc(court.venue_name)}</strong><br>${esc(court.address)}, ${esc(court.city)}</p>
-    <p><span class="badge">${esc(court.sport)}</span>
+    <p><span class="badge">Pickleball</span>
        <span class="price">${esc(money(court.hourly_rate))}</span><span class="small muted"> per hour</span></p>
     ${court.description ? '<p>' + esc(court.description) + '</p>' : ''}
     <p class="small muted">Hours: ${esc(hourLabel(court.opening_hour))} to ${esc(closeText(court.closing_hour))}. Book one continuous block of hours.</p>`;

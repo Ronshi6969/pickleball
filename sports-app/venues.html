@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Court rental | Play Together</title>
+  <title>Pickleball Courts | Play Together</title>
+  <link rel="icon" type="image/png" href="assets/img/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body data-root="" data-nav="courts">
@@ -15,12 +16,12 @@
 <div id="flashes"></div>
 <main>
 <div class="container band">
-  <h1>Court rental</h1>
+  <div class="kicker">Hourly Pickleball Rentals</div>
+  <h1>Pickleball Courts</h1>
   <form class="filters" method="get" action="venues.html">
     <div><label for="q">Court or venue name</label><input type="text" id="q" name="q" placeholder="e.g. ALAB"></div>
     <div><label for="location">Location</label><input type="text" id="location" name="location" placeholder="e.g. Imus"></div>
-    <div><label for="sport">Sport</label><select id="sport" name="sport"><option value="0">All sports</option></select></div>
-    <div class="actions"><button class="btn" type="submit">Search</button>
+    <div class="actions"><button class="btn" type="submit">Search <span class="btn-arrow">&rarr;</span></button>
       <a class="btn btn-ghost" id="clear-link" href="venues.html" hidden>Clear</a></div>
   </form>
   <div id="results"></div>

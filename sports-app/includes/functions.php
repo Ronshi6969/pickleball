@@ -7,6 +7,15 @@ if (session_status() === PHP_SESSION_NONE) {
 
 const SKILLS = ['beginner', 'intermediate', 'advanced'];
 
+function pickleball_sport_id(): int
+{
+    static $id = null;
+    if ($id === null) {
+        $id = (int)(db_val("SELECT TOP 1 id FROM sports WHERE name = 'Pickleball'") ?: db_val("SELECT TOP 1 id FROM sports ORDER BY id") ?: 1);
+    }
+    return $id;
+}
+
 /* ---------- database shortcuts (all use prepared statements) ---------- */
 // Each helper closes its cursor so no result set is left open (important for SQL Server transactions).
 function db_all(string $sql, array $params = []): array
@@ -229,11 +238,11 @@ function fetch_open_plays(array $f = [], ?int $limit = null): array
             FROM open_plays o
             JOIN venues v ON v.id = o.venue_id
             JOIN sports s ON s.id = o.sport_id
-            WHERE (o.play_date > ? OR (o.play_date = ? AND o.end_time > ?))";
-    $params = [date('Y-m-d'), date('Y-m-d'), date('H:i:s')];
+            WHERE (o.play_date > ? OR (o.play_date = ? AND o.end_time > ?))
+              AND o.sport_id = ?";
+    $params = [date('Y-m-d'), date('Y-m-d'), date('H:i:s'), pickleball_sport_id()];
     if (!empty($f['date']))     { $sql .= ' AND o.play_date = ?'; $params[] = $f['date']; }
     if (!empty($f['venue_id'])) { $sql .= ' AND o.venue_id = ?';  $params[] = (int)$f['venue_id']; }
-    if (!empty($f['sport_id'])) { $sql .= ' AND o.sport_id = ?';  $params[] = (int)$f['sport_id']; }
     $sql .= ' ORDER BY o.play_date, o.start_time';
     return db_all($sql, $params);
 }

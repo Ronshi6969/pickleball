@@ -115,23 +115,28 @@
   function buildHeader(user) {
     const nav = document.body.dataset.nav || '';
     const on = key => (nav === key ? ' class="on"' : '');
-    let links = '<a href="' + root + 'venues.html"' + on('courts') + '>Court rental</a>' +
+    let links = '<a href="' + root + 'index.html"' + on('home') + '>Home</a>' +
+                '<a href="' + root + 'venues.html"' + on('courts') + '>Courts</a>' +
                 '<a href="' + root + 'openplays.html"' + on('open') + '>Open play</a>';
     if (user && user.role === 'manager') links += '<a href="' + root + 'manager/index.html"' + on('manager') + '>Manager</a>';
     else if (user) links += '<a href="' + root + 'dashboard.html"' + on('dash') + '>My plays</a>';
     if (user) {
       if (user.role === 'player') links += '<a href="' + root + 'profile.html"' + on('profile') + '>Profile</a>';
+      links += '<a href="' + root + 'venues.html" class="btn btn-sm">Book a court <span class="btn-arrow">&rarr;</span></a>';
       links += '<a href="' + root + 'actions/logout.php" class="btn btn-sm btn-ghost">Log out</a>';
     } else {
       links += '<a href="' + root + 'login.html">Log in</a>' +
-               '<a href="' + root + 'register.html" class="btn btn-sm btn-ink">Join as player</a>' +
-               '<a href="' + root + 'venue_register.html" class="btn btn-sm btn-ghost">List your venue</a>';
+               '<a href="' + root + 'register.html" class="btn btn-sm btn-ghost">Join</a>' +
+               '<a href="' + root + 'venues.html" class="btn btn-sm">Book a court <span class="btn-arrow">&rarr;</span></a>';
     }
     const header = document.getElementById('site-header');
     if (!header) return;
     header.innerHTML =
       '<div class="container bar">' +
-        '<a class="logo" href="' + root + 'index.html">Play<br>Together</a>' +
+        '<a class="logo" href="' + root + 'index.html">' +
+          '<span class="logo-badge"><img src="' + root + 'assets/img/logo-mark.png" alt="Play Together Pickleball logo"></span>' +
+          '<span class="logo-text"><span class="logo-title">Play Together</span><span class="logo-sub">Pickleball Club</span></span>' +
+        '</a>' +
         '<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>' +
         '<nav id="main-nav" class="main-nav" aria-label="Main">' + links + '</nav>' +
       '</div>';
@@ -145,7 +150,26 @@
 
   function buildFooter() {
     const footer = document.getElementById('site-footer');
-    if (footer) footer.innerHTML = '<div class="container"><strong>Play Together</strong> &mdash; Sports hub and community for Cavite players and venues.</div>';
+    if (!footer) return;
+    footer.innerHTML =
+      '<div class="container footer-grid">' +
+        '<div class="footer-col">' +
+          '<a class="logo" href="' + root + 'index.html">' +
+            '<span class="logo-badge"><img src="' + root + 'assets/img/logo-mark.png" alt="Play Together Pickleball logo"></span>' +
+            '<span class="logo-text"><span class="logo-title">Play Together</span><span class="logo-sub">Pickleball Only &middot; ESTD 2025</span></span>' +
+          '</a>' +
+        '</div>' +
+        '<div class="footer-col">' +
+          '<h4>Cavite Pickleball Hub</h4>' +
+          '<p>Open Daily &middot; 6:00 AM &ndash; 11:00 PM<br>Dedicated indoor &amp; covered pickleball courts</p>' +
+        '</div>' +
+        '<div class="footer-col">' +
+          '<div class="footer-slogan">' +
+            '<strong>Dink Together.<br>Win Together.</strong>' +
+            '<span class="footer-dots" aria-hidden="true"></span>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
   }
 
   function showFlashes(flashes) {

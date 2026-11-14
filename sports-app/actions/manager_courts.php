@@ -17,10 +17,9 @@ $action = $_POST['action'] ?? '';
 $id = (int)($_POST['id'] ?? 0);
 
 if ($action === 'save') {
-    $name = trim($_POST['name'] ?? ''); $sport = (int)($_POST['sport_id'] ?? 0); $rate = (float)($_POST['hourly_rate'] ?? 0);
+    $name = trim($_POST['name'] ?? ''); $sport = pickleball_sport_id(); $rate = (float)($_POST['hourly_rate'] ?? 0);
     $errors = [];
     if ($name === '' || mb_strlen($name) > 80)           { $errors[] = 'Enter a court name (max 80 characters).'; }
-    if (!db_val('SELECT 1 FROM sports WHERE id = ?', [$sport])) { $errors[] = 'Choose a sport.'; }
     if ($rate <= 0 || $rate > 100000)                    { $errors[] = 'Hourly rate must be more than 0.'; }
     if ($id && !own_court($id, $vid))                    { $errors[] = 'Court not found.'; }
     if (!$errors) {
@@ -34,7 +33,7 @@ if ($action === 'save') {
         redirect('manager/courts.html');
     }
     foreach ($errors as $er) { flash('error', $er); }
-    old_input(['name' => $name, 'sport_id' => $sport, 'hourly_rate' => $_POST['hourly_rate'] ?? '']);
+    old_input(['name' => $name, 'hourly_rate' => $_POST['hourly_rate'] ?? '']);
     redirect('manager/courts.html' . ($id ? '?edit=' . $id : ''));
 } elseif ($action === 'toggle' && own_court($id, $vid)) {
     db_run('UPDATE courts SET is_active = 1 - is_active WHERE id = ? AND venue_id = ?', [$id, $vid]);

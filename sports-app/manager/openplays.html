@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Open plays | Play Together</title>
+  <title>Pickleball Open plays | Play Together</title>
+  <link rel="icon" type="image/png" href="../assets/img/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body data-root="../" data-nav="manager" data-mnav="openplays">
@@ -16,9 +17,10 @@
 <main>
 <nav id="manager-nav"></nav>
 <div class="container band" style="padding-top:1rem">
+  <div class="kicker">Pickleball Sessions</div>
   <h1>Open plays</h1>
   <form method="post" action="../actions/manager_openplays.php" id="play-form" class="form-card" style="margin-bottom:2rem" novalidate>
-    <h2 style="font-size:1.6rem" id="form-title">Create an open play</h2>
+    <h2 style="font-size:1.7rem" id="form-title">Create a pickleball open play</h2>
     <input type="hidden" name="csrf" value=""><input type="hidden" name="action" value="save"><input type="hidden" name="id" value="0">
     <div class="field"><label for="title">Title</label><input type="text" id="title" name="title" required maxlength="120"></div>
     <div class="row row-3">
@@ -26,8 +28,7 @@
       <div class="field"><label for="start_time">Starts</label><input type="time" id="start_time" name="start_time" required></div>
       <div class="field"><label for="end_time">Ends</label><input type="time" id="end_time" name="end_time" required></div>
     </div>
-    <div class="row row-3">
-      <div class="field"><label for="sport_id">Sport</label><select id="sport_id" name="sport_id"></select></div>
+    <div class="row row-2">
       <div class="field"><label for="skill_level">Skill level</label>
         <select id="skill_level" name="skill_level">
           <option value="all">All levels</option>
@@ -47,7 +48,7 @@
   </form>
 
   <div class="form-card" id="roster-box" style="margin-bottom:2rem" hidden>
-    <h2 style="font-size:1.6rem">Registered players</h2>
+    <h2 style="font-size:1.7rem">Registered players</h2>
     <div id="roster-list"></div>
     <a class="btn btn-sm btn-ghost" href="openplays.html">Close</a>
   </div>

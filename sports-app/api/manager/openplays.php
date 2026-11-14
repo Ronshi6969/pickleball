@@ -17,9 +17,10 @@ if ($editing) {
     $editing['end_time']   = hm($editing['end_time']);
 }
 
+$pid = pickleball_sport_id();
 $plays = db_all("SELECT o.id, o.title, o.play_date, o.start_time, o.end_time, o.skill_level, o.max_slots, o.price, s.name AS sport,
                         COALESCE((SELECT SUM(r.slots) FROM open_play_registrations r WHERE r.open_play_id = o.id AND r.status = 'joined'), 0) AS taken
-                 FROM open_plays o JOIN sports s ON s.id = o.sport_id WHERE o.venue_id = ? ORDER BY o.play_date DESC, o.start_time", [$vid]);
+                 FROM open_plays o JOIN sports s ON s.id = o.sport_id WHERE o.venue_id = ? AND o.sport_id = ? ORDER BY o.play_date DESC, o.start_time", [$vid, $pid]);
 foreach ($plays as $i => $p) {
     $plays[$i]['start_time'] = hms($p['start_time']);
     $plays[$i]['end_time']   = hms($p['end_time']);
@@ -30,7 +31,6 @@ $rosterId = (int)($_GET['roster'] ?? 0);
 $roster = $rosterId && own_play($rosterId, $vid) ? (fetch_rosters([$rosterId])[$rosterId] ?? []) : null;
 
 json_out([
-    'sports'  => db_all('SELECT id, name FROM sports ORDER BY name'),
     'editing' => $editing,
     'plays'   => $plays,
     'roster'  => $roster,

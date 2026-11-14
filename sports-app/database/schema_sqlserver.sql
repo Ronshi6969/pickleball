@@ -185,7 +185,7 @@ DECLARE @today DATE = CAST(GETDATE() AS DATE);
 -- bcrypt hash of the word "password"
 DECLARE @pw NVARCHAR(255) = N'$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
 
-INSERT INTO dbo.sports (name) VALUES (N'Pickleball'),(N'Badminton'),(N'Basketball'),(N'Tennis'),(N'Volleyball');
+INSERT INTO dbo.sports (name) VALUES (N'Pickleball');
 
 INSERT INTO dbo.users (name, email, password_hash, role, skill_level) VALUES
  (N'John M. Reyes',  N'john@example.com',     @pw, 'player',  'intermediate'),
@@ -195,25 +195,25 @@ INSERT INTO dbo.users (name, email, password_hash, role, skill_level) VALUES
  (N'Pickle Admin',   N'pickle@example.com',   @pw, 'manager', 'advanced'),
  (N'Playzone Admin', N'playzone@example.com', @pw, 'manager', 'advanced');
 
-INSERT INTO dbo.user_sports (user_id, sport_id) VALUES (1,1),(1,2),(2,1),(3,1),(3,3);
+INSERT INTO dbo.user_sports (user_id, sport_id) VALUES (1,1),(2,1),(3,1);
 
 -- NCHAR(241) is the letter n with a tilde, so this file stays plain ASCII
 INSERT INTO dbo.venues (manager_id, name, address, city, description, opening_hour, closing_hour) VALUES
  (4, N'ALAB Court',      N'Open Canal, Imus',     N'Imus, Cavite', N'Indoor pickleball courts with LED lighting, lockers and a small pro shop.', 6, 22),
- (5, N'Play and Pickle', N'Anabu Road, Imus',     N'Imus, Cavite', N'Friendly neighbourhood courts. Paddle rentals available.', 6, 21),
- (6, N'Playzone',        N'Aguinaldo Highway, Dasmari' + NCHAR(241) + N'as', N'Dasmari' + NCHAR(241) + N'as, Cavite', N'Covered multi-sport courts with parking and a cafe.', 7, 23);
+ (5, N'Play and Pickle', N'Anabu Road, Imus',     N'Imus, Cavite', N'Friendly neighbourhood pickleball courts. Paddle rentals available.', 6, 21),
+ (6, N'Playzone',        N'Aguinaldo Highway, Dasmari' + NCHAR(241) + N'as', N'Dasmari' + NCHAR(241) + N'as, Cavite', N'Covered pickleball club courts with parking and a courtside cafe.', 7, 23);
 
 INSERT INTO dbo.courts (venue_id, sport_id, name, hourly_rate) VALUES
  (1,1,N'ALAB Court 1',350),(1,1,N'ALAB Court 2',350),(1,1,N'ALAB Court 3',350),
- (2,1,N'Pickle Court A',300),(2,1,N'Pickle Court B',300),(2,2,N'Badminton Court 1',250),
- (3,1,N'Playzone Pickle 1',320),(3,3,N'Playzone Hoops',500),(3,5,N'Playzone Volley',450);
+ (2,1,N'Pickle Court A',300),(2,1,N'Pickle Court B',300),(2,1,N'Pickle Court C',300),
+ (3,1,N'Playzone Pickle 1',320),(3,1,N'Playzone Pickle 2',320),(3,1,N'Playzone Pickle 3',350);
 
 INSERT INTO dbo.open_plays (venue_id, sport_id, title, description, play_date, start_time, end_time, skill_level, courts_used, max_slots, price) VALUES
- (1,1,N'ALAB Early Morning',        N'Rotating doubles, balls provided.',  DATEADD(DAY,1,@today),'07:00','12:00','all',3,24,250),
- (2,1,N'Sunrise Open Play',         N'Easy-going games for everyone.',     DATEADD(DAY,1,@today),'05:00','09:00','all',3,20,200),
- (3,1,N'Dink and Smash Morning',    N'Mixed-level rotating games.',        DATEADD(DAY,2,@today),'06:00','10:00','all',3,18,200),
- (1,1,N'Intermediate Night Ladder', N'Competitive ladder play.',           DATEADD(DAY,3,@today),'19:00','22:00','intermediate',2,12,300),
- (2,2,N'Badminton Social',          N'Casual doubles.',                    DATEADD(DAY,4,@today),'17:00','20:00','beginner',1,8,150);
+ (1,1,N'ALAB Early Morning',        N'Rotating pickleball doubles, balls provided.', DATEADD(DAY,1,@today),'07:00','12:00','all',3,24,250),
+ (2,1,N'Sunrise Open Play',         N'Easy-going pickleball games for everyone.',   DATEADD(DAY,1,@today),'05:00','09:00','all',3,20,200),
+ (3,1,N'Dink and Smash Morning',    N'Mixed-level rotating pickleball games.',      DATEADD(DAY,2,@today),'06:00','10:00','all',3,18,200),
+ (1,1,N'Intermediate Night Ladder', N'Competitive pickleball ladder play.',         DATEADD(DAY,3,@today),'19:00','22:00','intermediate',2,12,300),
+ (2,1,N'Beginner Dink Social',      N'Welcoming beginner pickleball doubles.',      DATEADD(DAY,4,@today),'17:00','20:00','beginner',1,8,150);
 
 INSERT INTO dbo.open_play_registrations (open_play_id, user_id, slots, amount) VALUES
  (1,1,1,250),(1,2,2,500),(2,1,1,200),(3,3,1,200);

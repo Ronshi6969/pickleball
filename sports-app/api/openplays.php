@@ -6,10 +6,9 @@ $user = current_user();
 
 $date  = $_GET['date'] ?? '';
 $venue = (int)($_GET['venue'] ?? 0);
-$sport = (int)($_GET['sport'] ?? 0);
 if ($date !== '' && !valid_date($date)) { $date = ''; }
 
-$plays   = fetch_open_plays(['date' => $date, 'venue_id' => $venue, 'sport_id' => $sport]);
+$plays   = fetch_open_plays(['date' => $date, 'venue_id' => $venue]);
 $ids     = array_map('intval', array_column($plays, 'id'));
 $rosters = fetch_rosters($ids);
 $mine    = ($user && $user['role'] === 'player') ? my_registrations((int)$user['id'], $ids) : [];
@@ -34,5 +33,4 @@ foreach ($groups as $d => $list) { $byDate[] = ['date' => $d, 'plays' => $list];
 json_out([
     'groups' => $byDate,
     'venues' => db_all('SELECT id, name FROM venues ORDER BY name'),
-    'sports' => db_all('SELECT id, name FROM sports ORDER BY name'),
 ]);

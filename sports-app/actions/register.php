@@ -1,16 +1,14 @@
 <?php
-// Form handler for register.html: creates a player account (user + preferred sports in one transaction).
+// Form handler for register.html: creates a pickleball player account.
 require_once __DIR__ . '/../includes/functions.php';
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { redirect('register.html'); }
 csrf_check();
 
-$sports = db_all('SELECT id FROM sports');
-$validSportIds = array_map('intval', array_column($sports, 'id'));
+$pickleId = pickleball_sport_id();
 
 $name   = trim($_POST['name'] ?? '');
 $email  = trim($_POST['email'] ?? '');
 $skill  = $_POST['skill'] ?? 'beginner';
-$picked = array_map('intval', (array)($_POST['sports'] ?? []));
 $pass   = $_POST['password'] ?? '';
 $pass2  = $_POST['password2'] ?? '';
 $errors = [];
@@ -31,9 +29,7 @@ if (!$errors) {
         $uid = db_insert("INSERT INTO users (name, email, password_hash, role, skill_level)
                           OUTPUT INSERTED.id VALUES (?, ?, ?, 'player', ?)",
                          [$name, $email, password_hash($pass, PASSWORD_DEFAULT), $skill]);
-        foreach (array_unique(array_intersect($picked, $validSportIds)) as $sid) {
-            db_run('INSERT INTO user_sports (user_id, sport_id) VALUES (?, ?)', [$uid, $sid]);
-        }
+        db_run('INSERT INTO user_sports (user_id, sport_id) VALUES (?, ?)', [$uid, $pickleId]);
         $pdo->commit();
     } catch (PDOException $ex) {
         if ($pdo->inTransaction()) { $pdo->rollBack(); }
@@ -48,5 +44,5 @@ if (!$errors) {
 }
 
 foreach ($errors as $er) { flash('error', $er); }
-old_input(['name' => $name, 'email' => $email, 'skill' => $skill, 'sports' => $picked]);
+old_input(['name' => $name, 'email' => $email, 'skill' => $skill]);
 redirect('register.html');

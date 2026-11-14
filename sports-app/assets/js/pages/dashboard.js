@@ -10,8 +10,9 @@ PT.ready.then(async session => {
   document.getElementById('hero').innerHTML = `
     ${media(user.avatar, user.name, 'avatar')}
     <div>
+      <div class="kicker">Pickleball Player</div>
       <h1>Hello, ${esc(user.name.split(' ')[0])}!</h1>
-      <p>${esc(user.name)} &middot; ${esc(user.skill_level.charAt(0).toUpperCase() + user.skill_level.slice(1))}${data.sports.length ? ' &middot; ' + esc(data.sports.join(', ')) : ''}</p>
+      <p class="muted">${esc(user.name)} &middot; ${esc(user.skill_level.charAt(0).toUpperCase() + user.skill_level.slice(1))} Pickleball Player</p>
       <div class="actions">
         <a class="btn btn-ink" href="profile.html">Edit profile</a>
         <a class="btn btn-ghost" href="openplays.html">Find a game</a>

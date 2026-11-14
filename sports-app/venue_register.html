@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>List your venue | Play Together</title>
+  <title>List your pickleball venue | Play Together</title>
+  <link rel="icon" type="image/png" href="assets/img/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body data-root="" data-nav="">
@@ -16,14 +17,15 @@
 <main>
 <div class="container">
   <form method="post" action="actions/venue_register.php" id="venue-form" class="form-card form-narrow" style="max-width:38rem" novalidate>
-    <h1 style="font-size:2.4rem">List your venue</h1>
+    <div class="kicker">Pickleball Club Partner</div>
+    <h1 style="font-size:2.6rem">List your venue</h1>
     <input type="hidden" name="csrf" value="">
     <div class="row row-2">
       <div class="field"><label for="name">Your name</label><input type="text" id="name" name="name" required></div>
       <div class="field"><label for="email">Email</label><input type="email" id="email" name="email" required></div>
     </div>
     <div class="field"><label for="password">Password</label><input type="password" id="password" name="password" required minlength="8" autocomplete="new-password"></div>
-    <div class="field"><label for="venue">Venue name</label><input type="text" id="venue" name="venue" required></div>
+    <div class="field"><label for="venue">Pickleball venue name</label><input type="text" id="venue" name="venue" required></div>
     <div class="row row-2">
       <div class="field"><label for="address">Address</label><input type="text" id="address" name="address" required></div>
       <div class="field"><label for="city">City</label><input type="text" id="city" name="city" placeholder="Imus, Cavite" required></div>
@@ -32,7 +34,7 @@
       <div class="field"><label for="open">Opens at</label><select id="open" name="open"></select></div>
       <div class="field"><label for="close">Closes at</label><select id="close" name="close"></select></div>
     </div>
-    <button class="btn btn-block" type="submit">Create venue account</button>
+    <button class="btn btn-block" type="submit">Create venue account <span class="btn-arrow">&rarr;</span></button>
   </form>
 </div>
 </main>

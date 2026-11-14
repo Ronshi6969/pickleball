@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Open play | Play Together</title>
+  <title>Pickleball Open Play | Play Together</title>
+  <link rel="icon" type="image/png" href="assets/img/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body data-root="" data-nav="open">
@@ -15,12 +16,12 @@
 <div id="flashes"></div>
 <main>
 <div class="container band">
-  <h1>Open play</h1>
+  <div class="kicker">Drop-In Pickleball Sessions</div>
+  <h1>Open Play</h1>
   <form class="filters" method="get" action="openplays.html">
     <div><label for="date">Date</label><input type="date" id="date" name="date"></div>
     <div><label for="venue">Venue</label><select id="venue" name="venue"><option value="0">All venues</option></select></div>
-    <div><label for="sport">Sport</label><select id="sport" name="sport"><option value="0">All sports</option></select></div>
-    <div class="actions"><button class="btn" type="submit">Filter</button>
+    <div class="actions"><button class="btn" type="submit">Filter <span class="btn-arrow">&rarr;</span></button>
       <a class="btn btn-ghost" id="clear-link" href="openplays.html" hidden>Clear</a></div>
   </form>
   <div id="results"></div>

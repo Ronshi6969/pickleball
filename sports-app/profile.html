@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Edit profile | Play Together</title>
+  <link rel="icon" type="image/png" href="assets/img/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body data-root="" data-nav="profile">
@@ -16,22 +17,21 @@
 <main>
 <div class="container">
   <form method="post" action="actions/profile_save.php" id="profile-form" enctype="multipart/form-data" class="form-card form-narrow" novalidate>
-    <h1 style="font-size:2.4rem">Edit profile</h1>
+    <div class="kicker">Pickleball Player</div>
+    <h1 style="font-size:2.6rem">Edit profile</h1>
     <input type="hidden" name="csrf" value="">
     <div class="field" style="display:flex;gap:1rem;align-items:center">
       <span id="avatar-box"></span>
       <div style="flex:1"><label for="avatar">Profile photo</label><input type="file" id="avatar" name="avatar" accept="image/jpeg,image/png,image/webp"></div>
     </div>
     <div class="field"><label for="name">Full name</label><input type="text" id="name" name="name" required maxlength="100"></div>
-    <div class="field"><label for="skill">Skill level</label>
+    <div class="field"><label for="skill">Pickleball skill level</label>
       <select id="skill" name="skill">
         <option value="beginner">Beginner</option>
         <option value="intermediate">Intermediate</option>
         <option value="advanced">Advanced</option>
       </select></div>
-    <div class="field"><label>Preferred sports</label>
-      <div class="checks" id="sports-box"></div></div>
-    <button class="btn btn-block" type="submit">Save profile</button>
+    <button class="btn btn-block" type="submit">Save profile <span class="btn-arrow">&rarr;</span></button>
   </form>
 </div>
 </main>
