@@ -4,7 +4,7 @@
 - **Pages** (`*.html`, `manager/*.html`): pure HTML. No PHP inside, so they are separate from the logic. A browser cannot run PHP inside .html,
   so a page gets its data with JavaScript `fetch()` from a PHP file that answers JSON.
 - **Show data**: `page.html` -> `assets/js/pages/page.js` -> `fetch('api/xxx.php')` -> PHP does `SELECT` -> JSON -> the script fills the page.
-- **Save data**: `<form action="actions/xxx.php" method="post">` -> PHP (1) checks login/role + CSRF, (2) validates, (3) runs INSERT/UPDATE in PDO,
+- **Save data**: `<form action="actions/xxx.php" method="post">` -> PHP (1) checks login/role + CSRF, (2) validates, (3) runs INSERT/UPDATE using `sqlsrv_query()`,
   (4) `header('Location: page.html')`. Errors and success messages are kept in the session (flash) and shown by the page after the redirect.
 - **Why separate them?** The design (HTML/CSS) can be changed without touching the logic, and the PHP has no HTML (separation of concerns).
   This is the same pattern as the lab: a plain form page + a `connect.php` that inserts and redirects.
@@ -29,18 +29,18 @@
 - `NVARCHAR` stores Unicode text (names with n-tilde, etc.). `DATETIME2` / `DATE` / `TIME` are language independent for `YYYY-MM-DD`.
 - SQL Server allows only ONE cascade path between two tables; the foreign keys are designed so none conflict.
 - `T-SQL` batches are separated by `GO` in SSMS (GO is an SSMS command, not SQL).
-- Connection: `PDO('sqlsrv:Server=...;Database=...')`. Windows Authentication = no user/password in the connection.
+- Connection: `sqlsrv_connect($serverName, $connectionOptions)`. Windows Authentication = empty `UID` / `PWD` in the connection options.
 
 ## 4. Security
 - Passwords: `password_hash()` / `password_verify()` (bcrypt). Never store plain text.
-- SQL injection: PDO prepared statements with `?` placeholders. User input never goes inside the SQL string.
+- SQL injection: `sqlsrv_query()` parameterized statements with `?` placeholders. User input never goes inside the SQL string.
   (Even the `TOP n` value is cast to `(int)` before it is written into the SQL.)
 - XSS: every value the JavaScript puts into the page goes through `esc()` (escapes & < > " '). PHP never prints HTML.
 - CSRF: hidden token in every POST form (filled in by `common.js` from `api/session.php`), checked by `csrf_check()`. An empty token never matches.
 - Session fixation: `session_regenerate_id(true)` after login.
 - File uploads: check real MIME type with `finfo`, size limit, random file name, `uploads/.htaccess` blocks PHP execution.
 - Authorization: managers can only touch rows that belong to THEIR venue (`WHERE venue_id = ?`).
-- `includes/`, `config/`, `database/` have an `.htaccess` that blocks direct browser access.
+- `includes/`, `config/` have an `.htaccess` that blocks direct browser access.
 
 ## 5. Transactions and race conditions
 - `actions/book.php`: BEGIN -> re-check every hour -> insert booking + slots -> COMMIT. If anything fails -> ROLLBACK.

@@ -23,7 +23,7 @@ if ($hasDriver) {
         db();
         $add('Connect to SQL Server', true, DB_SERVER . ' / database ' . DB_NAME . ' (' . (DB_USER === '' ? 'Windows Authentication' : 'SQL login ' . DB_USER) . ')');
         $users = (int)db_val('SELECT COUNT(*) FROM users');
-        $add('Tables and demo data', $users > 0, $users . ' users found', 'Run database/schema_sqlserver.sql in SSMS.');
+        $add('Tables and demo data', $users > 0, $users . ' users found', 'Check the users table in the ' . DB_NAME . ' database in SSMS.');
         $ver = (string)db_val('SELECT @@VERSION');
         $add('SQL Server version', true, strtok($ver, "\n"));
     } catch (Throwable $ex) {
@@ -33,7 +33,7 @@ if ($hasDriver) {
         }
         $hint = 'Check $serverName and $connectionOptions in config/config.php.';
         if (stripos($msg, 'Login failed') !== false)                    { $hint = 'Login rejected. For Windows Authentication make sure Apache runs as your Windows user and that user has a login in SQL Server; or set uid/PWD in config/config.php.'; }
-        elseif (stripos($msg, 'Cannot open database') !== false)         { $hint = 'The database does not exist yet. Run database/schema_sqlserver.sql in SSMS.'; }
+        elseif (stripos($msg, 'Cannot open database') !== false)         { $hint = 'The database ' . DB_NAME . ' does not exist yet in SSMS or is unreachable. Check $connectionOptions["Database"] in config/config.php.'; }
         elseif (stripos($msg, 'network-related') !== false || stripos($msg, 'Named Pipes') !== false || stripos($msg, 'not found or not accessible') !== false) { $hint = 'Server not reachable. Use the same server name as in SSMS (e.g. localhost\\SQLEXPRESS), make sure the SQL Server service is running and "SQL Server Browser" is running for named instances.'; }
         elseif (stripos($msg, 'certificate') !== false)                  { $hint = 'Certificate problem: keep "TrustServerCertificate" => true in config/config.php.'; }
         elseif (stripos($msg, 'Data source name not found') !== false || stripos($msg, 'driver') !== false) { $hint = 'The Microsoft ODBC Driver 17/18 for SQL Server is not installed.'; }
