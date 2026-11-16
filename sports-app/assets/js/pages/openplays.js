@@ -12,7 +12,7 @@ PT.ready.then(async session => {
   dateInput.value = params.date;
   const options = (list, current, allLabel) => '<option value="0">' + allLabel + '</option>' +
     list.map(x => `<option value="${Number(x.id)}"${String(x.id) === current ? ' selected' : ''}>${esc(x.name)}</option>`).join('');
-  document.getElementById('venue').innerHTML = options(data.venues, params.venue, 'All venues');
+  document.getElementById('venue').innerHTML = options(data.venues, params.venue, 'All branches');
   if (params.date || (params.venue && params.venue !== '0')) document.getElementById('clear-link').hidden = false;
 
   const box = document.getElementById('results');

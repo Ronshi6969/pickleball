@@ -1,15 +1,15 @@
 <?php
 // Form handler for manager/venue.html: venue details + photo upload.
 require_once __DIR__ . '/../includes/functions.php';
-$user  = require_login('manager');
+$user   = require_login('manager');
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { redirect('manager/venue.html'); }
 csrf_check();
-$venue = manager_venue((int)$user['id']);
 
+$action = $_POST['action'] ?? 'update';
 $name = trim($_POST['name'] ?? ''); $address = trim($_POST['address'] ?? ''); $city = trim($_POST['city'] ?? '');
 $desc = trim($_POST['description'] ?? ''); $open = (int)($_POST['open'] ?? 0); $close = (int)($_POST['close'] ?? 0);
 $errors = [];
-if ($name === '' || $address === '' || $city === '') { $errors[] = 'Name, address and city are required.'; }
+if ($name === '' || $address === '' || $city === '') { $errors[] = 'Branch name, address and location are required.'; }
 if ($open < 0 || $open > 23 || $close < 1 || $close > 24 || $close <= $open) { $errors[] = 'Closing time must be later than opening time.'; }
 $photo = null;
 if (!$errors) {
@@ -17,13 +17,23 @@ if (!$errors) {
     catch (RuntimeException $ex) { $errors[] = $ex->getMessage(); }
 }
 if (!$errors) {
+    if ($action === 'create') {
+        $newId = db_insert(
+            'INSERT INTO venues (manager_id, name, address, city, description, photo, opening_hour, closing_hour) OUTPUT INSERTED.id VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            [$user['id'], $name, $address, $city, $desc, $photo, $open, $close]
+        );
+        $_SESSION['manager_branch_id'] = $newId;
+        flash('success', 'New branch created (' . $city . '). Add courts for this branch next.');
+        redirect('manager/courts.html');
+    }
+    $venue = manager_venue((int)$user['id']);
     $sql = 'UPDATE venues SET name=?, address=?, city=?, description=?, opening_hour=?, closing_hour=?';
     $params = [$name, $address, $city, $desc, $open, $close];
     if ($photo !== null) { $sql .= ', photo=?'; $params[] = $photo; }   // keep the old photo when no new file was chosen
     $sql .= ' WHERE id=?';
     $params[] = $venue['id'];
     db_run($sql, $params);
-    flash('success', 'Venue details saved.');
+    flash('success', 'Branch details saved.');
     redirect('manager/venue.html');
 }
 

@@ -5,6 +5,8 @@ PT.ready.then(async session => {
   document.getElementById('photo-box').innerHTML = PT.media(venue.photo, venue.name);
   document.getElementById('open').innerHTML = PT.hourOptions(0, 23, venue.opening_hour);
   document.getElementById('close').innerHTML = PT.hourOptions(1, 24, venue.closing_hour, true);
+  document.getElementById('new-open').innerHTML = PT.hourOptions(0, 23, 6);
+  document.getElementById('new-close').innerHTML = PT.hourOptions(1, 24, 22, true);
   PT.fillForm(form, { name: venue.name, address: venue.address, city: venue.city, description: venue.description || '' });
   PT.fillForm(form, session.old);   // after a failed save, show what was typed
 

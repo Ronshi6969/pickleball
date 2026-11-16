@@ -44,9 +44,7 @@ Flow when a form is submitted (example: Join game):
 |---------|------------------------|
 | Player  | john@example.com       |
 | Player  | maria@example.com      |
-| Admin   | admin@example.com (ALAB Court, password: `admin12345`) |
-| Manager | pickle@example.com (Play and Pickle) |
-| Manager | playzone@example.com (Playzone) |
+| Admin   | admin@example.com (Play Together Pickleball &mdash; Silang, Dasmarinas, Imus, Bacoor, Trece) |
 
 ## MySQL -> SQL Server changes (for your defense)
 | MySQL                          | SQL Server (T-SQL)                                  |

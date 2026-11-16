@@ -192,10 +192,22 @@ function api_require(?string $role = null): array
     return $u;
 }
 
+function manager_branches(int $userId): array
+{
+    return db_all('SELECT * FROM venues WHERE manager_id = ? ORDER BY city, id', [$userId]);
+}
+
 function manager_venue(int $userId): array
 {
-    $v = db_one('SELECT * FROM venues WHERE manager_id = ?', [$userId]);
-    if (!$v) { json_error('No venue is linked to this account.', 404); }
+    $requested = (int)($_POST['branch_id'] ?? $_GET['branch_id'] ?? $_SESSION['manager_branch_id'] ?? 0);
+    $v = $requested > 0
+        ? db_one('SELECT * FROM venues WHERE id = ? AND manager_id = ?', [$requested, $userId])
+        : null;
+    if (!$v) {
+        $v = db_one('SELECT TOP 1 * FROM venues WHERE manager_id = ? ORDER BY id', [$userId]);
+    }
+    if (!$v) { json_error('No branch is linked to this account.', 404); }
+    $_SESSION['manager_branch_id'] = (int)$v['id'];
     return $v;
 }
 

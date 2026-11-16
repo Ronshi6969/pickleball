@@ -180,15 +180,34 @@
     box.innerHTML = flashes.map(f => '<div class="alert alert-' + esc(f.type) + '">' + esc(f.msg) + '</div>').join('');
   }
 
-  // Manager sub-menu (only on pages that have <nav id="manager-nav">)
-  function buildManagerNav() {
+  // Manager sub-menu + active branch switcher (only on pages that have <nav id="manager-nav">)
+  function buildManagerNav(session) {
     const el = document.getElementById('manager-nav');
     if (!el) return;
-    const items = { index: 'Overview', openplays: 'Open plays', courts: 'Courts', blocks: 'Blocked hours', bookings: 'Rentals', venue: 'Venue details' };
+    const items = { index: 'Overview', openplays: 'Open plays', courts: 'Courts', blocks: 'Blocked hours', bookings: 'Rentals', venue: 'Branch details' };
     const current = document.body.dataset.mnav || '';
+    const linksHtml = Object.keys(items).map(k => '<a href="' + root + 'manager/' + k + '.html" class="' + (current === k ? 'on' : '') + '">' + items[k] + '</a>').join('');
+
+    const branches = (session && session.branches) || [];
+    const branchId = Number((session && session.branch_id) || 0);
+    const pageName = location.pathname.split('/').pop() || 'index.html';
+    const switcher = branches.length
+      ? '<form method="post" action="' + root + 'actions/manager_branch.php" class="branch-switcher" id="branch-switcher">' +
+          '<input type="hidden" name="csrf" value="' + esc(session.csrf) + '">' +
+          '<input type="hidden" name="return_to" value="' + esc(pageName) + '">' +
+          '<label for="active-branch-select">Branch</label>' +
+          '<select id="active-branch-select" name="branch_id">' +
+            branches.map(b => '<option value="' + Number(b.id) + '"' + (Number(b.id) === branchId ? ' selected' : '') + '>' + esc(b.city) + ' &mdash; ' + esc(b.name) + '</option>').join('') +
+          '</select>' +
+        '</form>'
+      : '';
+
     el.className = 'subnav container';
     el.setAttribute('aria-label', 'Manager');
-    el.innerHTML = Object.keys(items).map(k => '<a href="' + root + 'manager/' + k + '.html" class="' + (current === k ? 'on' : '') + '">' + items[k] + '</a>').join('');
+    el.innerHTML = '<div class="subnav-links">' + linksHtml + '</div>' + switcher;
+
+    const sel = document.getElementById('active-branch-select');
+    if (sel) sel.addEventListener('change', () => sel.form.submit());
   }
 
   /* ---------- Custom HTML/CSS Confirmation Modal (for forms & logout) ---------- */
@@ -519,7 +538,7 @@
   const ready = api('session.php').then(session => {
     buildHeader(session.user);
     buildFooter();
-    buildManagerNav();
+    buildManagerNav(session);
     showFlashes(session.flashes);
     document.querySelectorAll('input[name="csrf"]').forEach(i => { i.value = session.csrf; });
     return session;

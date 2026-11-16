@@ -16,14 +16,19 @@
 <div id="flashes"></div>
 <main>
 <div class="container band">
-  <div class="kicker">Hourly Pickleball Rentals</div>
+  <div class="kicker">Hourly Pickleball Rentals &middot; 5 Cavite Branches</div>
   <h1>Pickleball Courts</h1>
-  <form class="filters" method="get" action="venues.html">
-    <div><label for="q">Court or venue name</label><input type="text" id="q" name="q" placeholder="e.g. ALAB"></div>
-    <div><label for="location">Location</label><input type="text" id="location" name="location" placeholder="e.g. Imus"></div>
+  <form class="filters" id="search-form" method="get" action="venues.html">
+    <div><label for="q">Court or branch name</label><input type="text" id="q" name="q" placeholder="e.g. Court 1 or Silang"></div>
+    <div class="loc-suggest-wrap">
+      <label for="location">Location</label>
+      <input type="text" id="location" name="location" placeholder="Choose or type branch location" autocomplete="off">
+      <div class="loc-dropdown" id="loc-dropdown" role="listbox" aria-label="Available branch locations" hidden></div>
+    </div>
     <div class="actions"><button class="btn" type="submit">Search <span class="btn-arrow">&rarr;</span></button>
       <a class="btn btn-ghost" id="clear-link" href="venues.html" hidden>Clear</a></div>
   </form>
+  <div class="loc-bar" id="loc-suggestions" aria-label="Available branch locations"></div>
   <div id="results"></div>
 </div>
 </main>
