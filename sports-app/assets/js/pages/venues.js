@@ -1,19 +1,17 @@
-// venues.html: pickleball court catalog with search (name, location) + branch location suggestions.
+// venues.html: pickleball court catalog with location search + branch location suggestions.
 PT.ready.then(async () => {
   const { esc, money, hourLabel, closeText, media } = PT;
   const q = PT.query();
-  const params = { q: (q.get('q') || '').trim(), location: (q.get('location') || '').trim() };
+  const params = { location: (q.get('location') || '').trim() };
   const data = await PT.api('venues.php', params);
 
   const form = document.getElementById('search-form');
-  const qInput = document.getElementById('q');
   const locInput = document.getElementById('location');
   const dropdown = document.getElementById('loc-dropdown');
   const chipsBox = document.getElementById('loc-suggestions');
 
-  qInput.value = params.q;
   locInput.value = params.location;
-  if (params.q || params.location) document.getElementById('clear-link').hidden = false;
+  if (params.location) document.getElementById('clear-link').hidden = false;
 
   const locations = data.locations || [];
   const goLocation = city => {
@@ -24,7 +22,7 @@ PT.ready.then(async () => {
   if (locations.length && chipsBox) {
     const activeLoc = params.location.toLowerCase();
     chipsBox.innerHTML =
-      '<span class="loc-bar-label">Available branches:</span>' +
+      '<span class="loc-bar-label">Available branch locations:</span>' +
       `<button type="button" class="loc-chip ${!activeLoc ? 'on' : ''}" data-loc="">All branches</button>` +
       locations.map(l => {
         const isOn = activeLoc === String(l.city).toLowerCase();
@@ -54,7 +52,10 @@ PT.ready.then(async () => {
     dropdown.hidden = false;
   }
 
-  locInput.addEventListener('focus', () => renderDropdown(locInput.value));
+  locInput.addEventListener('focus', () => renderDropdown(''));
+  locInput.addEventListener('click', () => {
+    if (dropdown && dropdown.hidden) renderDropdown('');
+  });
   locInput.addEventListener('input', () => renderDropdown(locInput.value));
   locInput.addEventListener('keydown', e => {
     if (e.key === 'Escape' && dropdown) dropdown.hidden = true;

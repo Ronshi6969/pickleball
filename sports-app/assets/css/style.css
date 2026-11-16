@@ -394,7 +394,7 @@ textarea{min-height:5.5rem;resize:vertical}
   display:grid;gap:.85rem;background:var(--card);border:1px solid var(--line);
   border-radius:var(--radius);padding:1.15rem;margin-bottom:1.6rem;align-items:end;
 }
-@media(min-width:720px){.filters{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}}
+@media(min-width:720px){.filters{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}.filters-loc{grid-template-columns:1fr auto}}
 .inline-form{display:inline}
 .error-list{margin:0 0 1rem;padding-left:1.2rem;color:#ff9494;font-weight:500}
 
@@ -533,7 +533,7 @@ details.roster summary{cursor:pointer;font-weight:600;color:var(--volt);font-siz
 }
 .loc-opt:hover,.loc-opt:focus-visible{background:var(--volt-dim);color:var(--volt);outline:none}
 .loc-bar{
-  display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;margin:-.6rem 0 1.5rem;
+  grid-column:1 / -1;display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;margin:.25rem 0 0;padding-top:.75rem;border-top:1px solid var(--line);
 }
 .loc-bar-label{
   font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-right:.2rem;

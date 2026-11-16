@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=3">
 </head>
 <body data-root="" data-nav="courts">
 <!-- header, footer and messages are filled in by assets/js/common.js -->
@@ -18,22 +18,21 @@
 <div class="container band">
   <div class="kicker">Hourly Pickleball Rentals &middot; 5 Cavite Branches</div>
   <h1>Pickleball Courts</h1>
-  <form class="filters" id="search-form" method="get" action="venues.html">
-    <div><label for="q">Court or branch name</label><input type="text" id="q" name="q" placeholder="e.g. Court 1 or Silang"></div>
+  <form class="filters filters-loc" id="search-form" method="get" action="venues.html">
     <div class="loc-suggest-wrap">
       <label for="location">Location</label>
-      <input type="text" id="location" name="location" placeholder="Choose or type branch location" autocomplete="off">
+      <input type="text" id="location" name="location" placeholder="Select or type branch location (e.g. Silang, Imus...)" autocomplete="off">
       <div class="loc-dropdown" id="loc-dropdown" role="listbox" aria-label="Available branch locations" hidden></div>
     </div>
     <div class="actions"><button class="btn" type="submit">Search <span class="btn-arrow">&rarr;</span></button>
       <a class="btn btn-ghost" id="clear-link" href="venues.html" hidden>Clear</a></div>
+    <div class="loc-bar" id="loc-suggestions" aria-label="Available branch locations"></div>
   </form>
-  <div class="loc-bar" id="loc-suggestions" aria-label="Available branch locations"></div>
   <div id="results"></div>
 </div>
 </main>
 <footer class="site-footer" id="site-footer"></footer>
-<script src="assets/js/common.js"></script>
-<script src="assets/js/pages/venues.js"></script>
+<script src="assets/js/common.js?v=3"></script>
+<script src="assets/js/pages/venues.js?v=3"></script>
 </body>
 </html>
