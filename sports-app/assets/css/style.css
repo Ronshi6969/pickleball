@@ -169,64 +169,46 @@ p{margin:0 0 1em}
   content:'';
   position:absolute;
   inset:0;
-  background:rgba(16,23,19,.32);
+  background:rgba(20,27,23,.68);
   pointer-events:none;
 }
 .hero{
   position:relative;
   z-index:1;
-  padding:2.5rem 0;
+  display:grid;gap:2rem;padding:3rem 0 3.25rem;align-items:center;
 }
-.hero-card{
-  max-width:33rem;
-  background:rgba(20,27,23,.88);
-  border:1px solid var(--line-strong);
-  border-radius:var(--radius);
-  padding:2rem;
-}
+@media(min-width:860px){.hero{grid-template-columns:1.15fr .85fr}}
 .hero-title{
-  font-size:clamp(1.95rem,3.6vw,2.65rem);line-height:1.14;letter-spacing:-.025em;margin-bottom:.7rem;
+  font-size:clamp(2.1rem,4.4vw,3.1rem);line-height:1.12;letter-spacing:-.025em;margin-bottom:.75rem;
 }
 .hero-sub{
-  font-size:1rem;color:#cfd8d1;margin:0 0 1.35rem;
+  font-size:1.05rem;color:#d6dfd8;max-width:34rem;margin:0 0 1.5rem;
 }
 .hero-actions{
-  display:flex;flex-wrap:wrap;gap:.7rem;
+  display:flex;flex-wrap:wrap;gap:.75rem;
 }
 .hero-meta{
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.85rem;
-  margin-top:1.5rem;padding-top:1.15rem;
-  border-top:1px solid var(--line);font-size:.82rem;color:#c3cec6;
+  display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:1.75rem;padding-top:1.25rem;
+  border-top:1px solid var(--line-strong);font-size:.86rem;color:#cbd6ce;
 }
-.hero-meta strong{color:var(--text);font-size:.9rem;display:block;margin-bottom:.1rem}
-@media(max-width:520px){
-  .hero-card{padding:1.4rem}
-  .hero-meta{grid-template-columns:1fr;gap:.65rem}
-}
+.hero-meta strong{color:var(--text);font-size:.95rem;display:block;margin-bottom:.1rem}
 
-/* Horizontal Branches Strip beneath Hero */
-.branches-strip{
-  background:var(--surface);
-  border-bottom:1px solid var(--line);
-  padding:1.5rem 0;
+/* Branch & Hours Overview Panel on Home */
+.branch-panel{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.35rem;
 }
-.branches-strip-head{
-  display:flex;align-items:baseline;justify-content:space-between;gap:.75rem;flex-wrap:wrap;
-  margin-bottom:.85rem;
+.branch-panel h2{font-size:1.15rem;margin-bottom:.35rem}
+.branch-panel-list{
+  list-style:none;margin:1rem 0 0;padding:0;display:grid;gap:.5rem;
 }
-.branches-strip-head h2{font-size:1.15rem;margin:0}
-.branch-strip-list{
-  list-style:none;margin:0;padding:0;
-  display:grid;gap:.65rem;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));
+.branch-panel-list a{
+  display:flex;align-items:center;justify-content:space-between;gap:.75rem;
+  padding:.6rem .85rem;border:1px solid var(--line);border-radius:6px;
+  background:var(--surface);text-decoration:none;transition:border-color .15s,color .15s;
 }
-.branch-strip-list a{
-  display:flex;flex-direction:column;gap:.15rem;
-  padding:.75rem .95rem;border:1px solid var(--line);border-radius:6px;
-  background:var(--card);text-decoration:none;transition:border-color .15s,color .15s;
-}
-.branch-strip-list a:hover{border-color:var(--accent);color:var(--accent)}
-.branch-strip-list strong{font-size:.96rem}
-.branch-strip-list span{font-size:.8rem;color:var(--muted)}
+.branch-panel-list a:hover{border-color:var(--accent);color:var(--accent)}
+.branch-panel-list span{font-size:.82rem;color:var(--muted)}
 
 /* ---------- Feature Strip ---------- */
 .feature-grid{
