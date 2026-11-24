@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=5">
+  <link rel="stylesheet" href="assets/css/style.css?v=6">
 </head>
 <body data-root="" data-nav="home">
 <!-- header, footer and messages are filled in by assets/js/common.js -->
@@ -17,7 +17,7 @@
 <main>
 <section class="hero-wrap">
   <div class="container hero">
-    <div>
+    <div class="hero-card">
       <h1 class="hero-title">Book a pickleball court across Cavite.</h1>
       <p class="hero-sub">Reserve courts by the hour or join upcoming open play sessions at any Play Together branch in Silang, Dasmarinas, Imus, Bacoor, or Trece.</p>
       <div class="hero-actions">
@@ -25,22 +25,27 @@
         <a class="btn btn-ghost" href="openplays.html">Join open play</a>
       </div>
       <div class="hero-meta">
-        <div><strong>5 Cavite branches</strong>Silang, Dasmarinas, Imus, Bacoor, Trece</div>
-        <div><strong>Hourly rentals</strong>Real-time court availability</div>
-        <div><strong>Open daily</strong>6:00 AM to 11:00 PM</div>
+        <div><strong>5 Branches</strong>Across Cavite</div>
+        <div><strong>Hourly Rentals</strong>Live open slots</div>
+        <div><strong>Open Daily</strong>6:00 AM &ndash; 11:00 PM</div>
       </div>
     </div>
-    <aside class="branch-panel" aria-label="Cavite branches">
+  </div>
+</section>
+
+<section class="branches-strip" aria-label="Cavite branches">
+  <div class="container">
+    <div class="branches-strip-head">
       <h2>Browse by branch</h2>
-      <p class="small muted">Pick a branch location to view courts and open time slots.</p>
-      <ul class="branch-panel-list">
-        <li><a href="venues.html?location=Silang"><strong>Silang</strong><span>Tagaytay-Sta. Rosa Rd</span></a></li>
-        <li><a href="venues.html?location=Dasmarinas"><strong>Dasmarinas</strong><span>Aguinaldo Highway</span></a></li>
-        <li><a href="venues.html?location=Imus"><strong>Imus</strong><span>Open Canal Road</span></a></li>
-        <li><a href="venues.html?location=Bacoor"><strong>Bacoor</strong><span>Molino Boulevard</span></a></li>
-        <li><a href="venues.html?location=Trece"><strong>Trece</strong><span>Governor&rsquo;s Drive</span></a></li>
-      </ul>
-    </aside>
+      <span class="small muted">Pick a location to view courts and open slots</span>
+    </div>
+    <ul class="branch-strip-list">
+      <li><a href="venues.html?location=Silang"><strong>Silang</strong><span>Tagaytay-Sta. Rosa Rd</span></a></li>
+      <li><a href="venues.html?location=Dasmarinas"><strong>Dasmarinas</strong><span>Aguinaldo Highway</span></a></li>
+      <li><a href="venues.html?location=Imus"><strong>Imus</strong><span>Open Canal Road</span></a></li>
+      <li><a href="venues.html?location=Bacoor"><strong>Bacoor</strong><span>Molino Boulevard</span></a></li>
+      <li><a href="venues.html?location=Trece"><strong>Trece</strong><span>Governor&rsquo;s Drive</span></a></li>
+    </ul>
   </div>
 </section>
 
