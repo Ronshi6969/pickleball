@@ -155,7 +155,7 @@ p{margin:0 0 1em}
 /* ---------- Hero ---------- */
 .hero-wrap{
   position:relative;
-  min-height:clamp(460px,57.13vw,820px);
+  min-height:min(clamp(460px,57.13vw,760px),calc(100vh - 64px));
   display:flex;
   align-items:center;
   background-color:var(--court);
@@ -175,7 +175,7 @@ p{margin:0 0 1em}
 .hero{
   position:relative;
   z-index:1;
-  display:grid;gap:2rem;padding:3rem 0 3.25rem;align-items:center;
+  display:grid;gap:2rem;padding:1.75rem 0 3.25rem;align-items:center;
 }
 @media(min-width:860px){.hero{grid-template-columns:1.15fr .85fr}}
 .hero-title{
