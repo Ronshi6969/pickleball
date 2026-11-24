@@ -5,9 +5,8 @@ PT.ready.then(async session => {
   document.getElementById('hero').innerHTML = `
     ${media(venue.photo, venue.name, 'thumb')}
     <div>
-      <div class="kicker">Active Branch &middot; ${esc(venue.city)}</div>
       <h1>${esc(venue.name)}</h1>
-      <p>${esc(venue.address)}</p>
+      <p class="muted">${esc(venue.address)}</p>
       <a class="btn btn-ink" href="venue.html">Edit branch &amp; photo</a>
     </div>`;
   document.getElementById('stats').innerHTML = `

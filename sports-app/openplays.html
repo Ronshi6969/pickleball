@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,28 +8,32 @@
   <link rel="icon" type="image/png" href="assets/img/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css?v=4">
 </head>
+
 <body data-root="" data-nav="open">
-<!-- header, footer and messages are filled in by assets/js/common.js -->
-<header class="site-header" id="site-header"></header>
-<div id="flashes"></div>
-<main>
-<div class="container band">
-  <div class="kicker">Drop-In Pickleball Sessions</div>
-  <h1>Open Play</h1>
-  <form class="filters" method="get" action="openplays.html">
-    <div><label for="date">Date</label><input type="date" id="date" name="date"></div>
-    <div><label for="venue">Branch</label><select id="venue" name="venue"><option value="0">All branches</option></select></div>
-    <div class="actions"><button class="btn" type="submit">Filter <span class="btn-arrow">&rarr;</span></button>
-      <a class="btn btn-ghost" id="clear-link" href="openplays.html" hidden>Clear</a></div>
-  </form>
-  <div id="results"></div>
-</div>
-</main>
-<footer class="site-footer" id="site-footer"></footer>
-<script src="assets/js/common.js"></script>
-<script src="assets/js/pages/openplays.js"></script>
+  <!-- header, footer and messages are filled in by assets/js/common.js -->
+  <header class="site-header" id="site-header"></header>
+  <div id="flashes"></div>
+  <main>
+    <div class="container band">
+      <h1>Open Play</h1>
+      <form class="filters" method="get" action="openplays.html">
+        <div><label for="date">Date</label><input type="date" id="date" name="date"></div>
+        <div><label for="venue">Branch</label><select id="venue" name="venue">
+            <option value="0">All branches</option>
+          </select></div>
+        <div class="actions"><button class="btn" type="submit">Filter</button>
+          <a class="btn btn-ghost" id="clear-link" href="openplays.html" hidden>Clear</a>
+        </div>
+      </form>
+      <div id="results"></div>
+    </div>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="assets/js/common.js"></script>
+  <script src="assets/js/pages/openplays.js"></script>
 </body>
+
 </html>

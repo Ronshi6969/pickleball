@@ -7,8 +7,8 @@
   <link rel="icon" type="image/png" href="assets/img/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css?v=4">
 </head>
 <body data-root="" data-nav="">
 <!-- header, footer and messages are filled in by assets/js/common.js -->
@@ -17,8 +17,7 @@
 <main>
 <div class="container">
   <form method="post" action="actions/register.php" id="register-form" class="form-card form-narrow" novalidate>
-    <div class="kicker">Pickleball Player Account</div>
-    <h1 style="font-size:2.6rem">Join the club</h1>
+    <h1>Create player account</h1>
     <input type="hidden" name="csrf" value="">
     <div class="field"><label for="name">Full name</label>
       <input type="text" id="name" name="name" required maxlength="100"></div>
@@ -36,7 +35,7 @@
         <option value="intermediate">Intermediate</option>
         <option value="advanced">Advanced</option>
       </select></div>
-    <button class="btn btn-block" type="submit">Create player account <span class="btn-arrow">&rarr;</span></button>
+    <button class="btn btn-block" type="submit">Create player account</button>
     <p class="small center muted" style="margin-top:1rem">Already have an account? <a href="login.html" class="text-volt">Log in</a></p>
   </form>
 </div>

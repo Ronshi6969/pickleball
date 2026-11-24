@@ -3,7 +3,7 @@ PT.ready.then(async () => {
   const { esc, money, dateLabel } = PT;
   const { booking: b } = await PT.api('booking.php', { ref: PT.query().get('ref') });
   document.getElementById('box').innerHTML = `
-    <h1 style="font-size:2.4rem">You're booked!</h1>
+    <h1>You're booked!</h1>
     <p>Show this reference at the venue: <strong>${esc(b.reference)}</strong></p>
     <div class="summary">
       <dl>

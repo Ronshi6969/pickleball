@@ -7,8 +7,8 @@
   <link rel="icon" type="image/png" href="../assets/img/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css?v=4">
 </head>
 <body data-root="../" data-nav="manager" data-mnav="courts">
 <!-- header, footer and messages are filled in by assets/js/common.js -->
@@ -17,10 +17,9 @@
 <main>
 <nav id="manager-nav"></nav>
 <div class="container band" style="padding-top:1rem">
-  <div class="kicker">Pickleball Only</div>
   <h1>Courts and rates</h1>
   <form method="post" action="../actions/manager_courts.php" id="court-form" class="form-card" style="margin-bottom:2rem" novalidate>
-    <h2 style="font-size:1.7rem" id="form-title">Add a pickleball court</h2>
+    <h2 id="form-title">Add a pickleball court</h2>
     <input type="hidden" name="csrf" value=""><input type="hidden" name="action" value="save"><input type="hidden" name="id" value="0">
     <div class="row row-2">
       <div class="field"><label for="name">Court name</label><input type="text" id="name" name="name" placeholder="e.g. Court 1" required></div>

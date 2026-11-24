@@ -8,7 +8,7 @@ PT.ready.then(async session => {
   document.title = court.name + ' | Play Together';
   document.getElementById('court-info').innerHTML = `
     ${media(court.photo, court.venue_name)}
-    <h1 style="margin-top:1rem;font-size:2.6rem">${esc(court.name)}</h1>
+    <h1 style="margin-top:1rem">${esc(court.name)}</h1>
     <p><strong>${esc(court.venue_name)}</strong><br>${esc(court.address)}, ${esc(court.city)}</p>
     <p><span class="badge">Pickleball</span>
        <span class="price">${esc(money(court.hourly_rate))}</span><span class="small muted"> per hour</span></p>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,56 +8,65 @@
   <link rel="icon" type="image/png" href="../assets/img/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css?v=4">
 </head>
-<body data-root="../" data-nav="manager" data-mnav="venue">
-<!-- header, footer and messages are filled in by assets/js/common.js -->
-<header class="site-header" id="site-header"></header>
-<div id="flashes"></div>
-<main>
-<nav id="manager-nav"></nav>
-<div class="container">
-  <form method="post" action="../actions/manager_venue.php" id="venue-form" enctype="multipart/form-data" class="form-card" style="max-width:40rem;margin:1rem auto 2rem" novalidate>
-    <div class="kicker">Active Branch</div>
-    <h1 style="font-size:2.2rem">Branch details</h1>
-    <input type="hidden" name="csrf" value="">
-    <input type="hidden" name="action" value="update">
-    <div class="field" id="photo-box"></div>
-    <div class="field"><label for="photo">Branch photo</label><input type="file" id="photo" name="photo" accept="image/jpeg,image/png,image/webp"></div>
-    <div class="field"><label for="name">Branch name</label><input type="text" id="name" name="name" required></div>
-    <div class="row row-2">
-      <div class="field"><label for="address">Address</label><input type="text" id="address" name="address" required></div>
-      <div class="field"><label for="city">Location (City / Municipality)</label><input type="text" id="city" name="city" required></div>
-    </div>
-    <div class="field"><label for="description">Description</label><textarea id="description" name="description"></textarea></div>
-    <div class="row row-2">
-      <div class="field"><label for="open">Opens at</label><select id="open" name="open"></select></div>
-      <div class="field"><label for="close">Closes at</label><select id="close" name="close"></select></div>
-    </div>
-    <button class="btn btn-block" type="submit">Save branch details</button>
-  </form>
 
-  <form method="post" action="../actions/manager_venue.php" id="add-branch" class="form-card" style="max-width:40rem;margin:0 auto 3rem" novalidate>
-    <div class="kicker">Expand Play Together</div>
-    <h2 style="font-size:1.8rem">Add a new branch</h2>
-    <input type="hidden" name="csrf" value="">
-    <input type="hidden" name="action" value="create">
-    <div class="row row-2">
-      <div class="field"><label for="new-name">Branch name</label><input type="text" id="new-name" name="name" placeholder="e.g. Play Together - Tagaytay Branch" required></div>
-      <div class="field"><label for="new-city">Location (City / Municipality)</label><input type="text" id="new-city" name="city" placeholder="e.g. Tagaytay" required></div>
+<body data-root="../" data-nav="manager" data-mnav="venue">
+  <!-- header, footer and messages are filled in by assets/js/common.js -->
+  <header class="site-header" id="site-header"></header>
+  <div id="flashes"></div>
+  <main>
+    <nav id="manager-nav"></nav>
+    <div class="container">
+      <form method="post" action="../actions/manager_venue.php" id="venue-form" enctype="multipart/form-data"
+        class="form-card" style="max-width:40rem;margin:1rem auto 2rem" novalidate>
+        <h1>Branch details</h1>
+        <input type="hidden" name="csrf" value="">
+        <input type="hidden" name="action" value="update">
+        <div class="field" id="photo-box"></div>
+        <div class="field"><label for="photo">Branch photo</label><input type="file" id="photo" name="photo"
+            accept="image/jpeg,image/png,image/webp"></div>
+        <div class="field"><label for="name">Branch name</label><input type="text" id="name" name="name" required></div>
+        <div class="row row-2">
+          <div class="field"><label for="address">Address</label><input type="text" id="address" name="address"
+              required></div>
+          <div class="field"><label for="city">Location (City / Municipality)</label><input type="text" id="city"
+              name="city" required></div>
+        </div>
+        <div class="field"><label for="description">Description</label><textarea id="description"
+            name="description"></textarea></div>
+        <div class="row row-2">
+          <div class="field"><label for="open">Opens at</label><select id="open" name="open"></select></div>
+          <div class="field"><label for="close">Closes at</label><select id="close" name="close"></select></div>
+        </div>
+        <button class="btn btn-block" type="submit">Save branch details</button>
+      </form>
+
+      <form method="post" action="../actions/manager_venue.php" id="add-branch" class="form-card"
+        style="max-width:40rem;margin:0 auto 3rem" novalidate>
+        <h2>Add a new branch</h2>
+        <input type="hidden" name="csrf" value="">
+        <input type="hidden" name="action" value="create">
+        <div class="row row-2">
+          <div class="field"><label for="new-name">Branch name</label><input type="text" id="new-name" name="name"
+              placeholder="e.g. Play Together - Tagaytay Branch" required></div>
+          <div class="field"><label for="new-city">Location (City / Municipality)</label><input type="text"
+              id="new-city" name="city" placeholder="e.g. Tagaytay" required></div>
+        </div>
+        <div class="field"><label for="new-address">Address</label><input type="text" id="new-address" name="address"
+            placeholder="Street / Highway, Cavite" required></div>
+        <div class="row row-2">
+          <div class="field"><label for="new-open">Opens at</label><select id="new-open" name="open"></select></div>
+          <div class="field"><label for="new-close">Closes at</label><select id="new-close" name="close"></select></div>
+        </div>
+        <button class="btn btn-ghost btn-block" type="submit">Add new branch</button>
+      </form>
     </div>
-    <div class="field"><label for="new-address">Address</label><input type="text" id="new-address" name="address" placeholder="Street / Highway, Cavite" required></div>
-    <div class="row row-2">
-      <div class="field"><label for="new-open">Opens at</label><select id="new-open" name="open"></select></div>
-      <div class="field"><label for="new-close">Closes at</label><select id="new-close" name="close"></select></div>
-    </div>
-    <button class="btn btn-ghost btn-block" type="submit">Add new branch <span class="btn-arrow">&rarr;</span></button>
-  </form>
-</div>
-</main>
-<footer class="site-footer" id="site-footer"></footer>
-<script src="../assets/js/common.js"></script>
-<script src="../assets/js/pages/manager_venue.js"></script>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="../assets/js/common.js"></script>
+  <script src="../assets/js/pages/manager_venue.js"></script>
 </body>
+
 </html>

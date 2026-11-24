@@ -25,7 +25,7 @@ PT.ready.then(async session => {
   function joinArea(p) {
     if (p.started) return '<p class="small muted">This session has started.</p>';
     if (user && user.role === 'manager') return '<p class="small muted">Log in as a player to join.</p>';
-    if (!user) return `<a class="btn btn-ink" href="${esc(loginHref)}">Log in to join <span class="btn-arrow">&rarr;</span></a>`;
+    if (!user) return `<a class="btn btn-ink" href="${esc(loginHref)}">Log in to join</a>`;
     if (p.myslots > 0) {
       return `<p><span class="badge badge-ok">You're in with ${PT.plural(p.myslots, 'slot')}</span></p>
         <form method="post" action="actions/openplay_action.php" class="inline-form"
@@ -56,7 +56,7 @@ PT.ready.then(async session => {
         <input type="hidden" name="open_play_id" value="${Number(p.id)}">
         <div class="field"><label for="slots-${Number(p.id)}">Slots</label>
           <select id="slots-${Number(p.id)}" name="slots">${opts}</select></div>
-        <button class="btn" type="submit">Join game <span class="btn-arrow">&rarr;</span></button>
+        <button class="btn" type="submit">Join game</button>
       </form>`;
   }
 
@@ -81,7 +81,7 @@ PT.ready.then(async session => {
             </details>
           </div>
           <div>
-            <div class="price">${esc(money(p.price))} <span class="small muted" style="font-family:Outfit,sans-serif;font-weight:400">per slot</span></div>
+            <div class="price">${esc(money(p.price))} <span class="small muted" style="font-weight:400">per slot</span></div>
             <div class="slot-meter" aria-hidden="true"><span style="width:${Number(p.pct)}%"></span></div>
             <p class="small"><strong>${Number(p.left)}</strong> of ${Number(p.max_slots)} slots left</p>
             ${joinArea(p)}

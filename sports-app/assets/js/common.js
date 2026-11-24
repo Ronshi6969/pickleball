@@ -122,12 +122,12 @@
     else if (user) links += '<a href="' + root + 'dashboard.html"' + on('dash') + '>My plays</a>';
     if (user) {
       if (user.role === 'player') links += '<a href="' + root + 'profile.html"' + on('profile') + '>Profile</a>';
-      links += '<a href="' + root + 'venues.html" class="btn btn-sm">Book a court <span class="btn-arrow">&rarr;</span></a>';
+      links += '<a href="' + root + 'venues.html" class="btn btn-sm">Book a court</a>';
       links += '<a href="' + root + 'actions/logout.php" class="btn btn-sm btn-ghost" data-logout>Log out</a>';
     } else {
       links += '<a href="' + root + 'login.html">Log in</a>' +
                '<a href="' + root + 'register.html" class="btn btn-sm btn-ghost">Join</a>' +
-               '<a href="' + root + 'venues.html" class="btn btn-sm">Book a court <span class="btn-arrow">&rarr;</span></a>';
+               '<a href="' + root + 'venues.html" class="btn btn-sm">Book a court</a>';
     }
     const header = document.getElementById('site-header');
     if (!header) return;
@@ -156,18 +156,16 @@
         '<div class="footer-col">' +
           '<a class="logo" href="' + root + 'index.html">' +
             '<span class="logo-badge"><img src="' + root + 'assets/img/logo-mark.png" alt="Play Together Pickleball logo"></span>' +
-            '<span class="logo-text"><span class="logo-title">Play Together</span><span class="logo-sub">Pickleball Only &middot; ESTD 2025</span></span>' +
+            '<span class="logo-text"><span class="logo-title">Play Together</span><span class="logo-sub">Pickleball Club</span></span>' +
           '</a>' +
         '</div>' +
         '<div class="footer-col">' +
-          '<h4>Cavite Pickleball Hub</h4>' +
-          '<p>Open Daily &middot; 6:00 AM &ndash; 11:00 PM<br>Dedicated indoor &amp; covered pickleball courts</p>' +
+          '<h4>Hours</h4>' +
+          '<p>Open daily, 6:00 AM &ndash; 11:00 PM<br>Indoor &amp; covered pickleball courts</p>' +
         '</div>' +
         '<div class="footer-col">' +
-          '<div class="footer-slogan">' +
-            '<strong>Dink Together.<br>Win Together.</strong>' +
-            '<span class="footer-dots" aria-hidden="true"></span>' +
-          '</div>' +
+          '<h4>Cavite Branches</h4>' +
+          '<p>Silang &middot; Dasmarinas &middot; Imus &middot; Bacoor &middot; Trece</p>' +
         '</div>' +
       '</div>';
   }
@@ -225,7 +223,6 @@
     backdrop.className = 'confirm-backdrop';
     backdrop.innerHTML =
       '<div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-title">' +
-        '<div class="kicker">' + esc(kicker) + '</div>' +
         '<h2 id="confirm-title">' + esc(title) + '</h2>' +
         '<p>' + esc(message) + '</p>' +
         '<div class="confirm-actions">' +
@@ -354,9 +351,8 @@
       backdrop.className = 'confirm-backdrop';
       backdrop.innerHTML =
         '<div class="crop-modal" role="dialog" aria-modal="true" aria-labelledby="crop-title">' +
-          '<div class="kicker">Adjust &amp; Crop Photo</div>' +
-          '<h2 id="crop-title">Frame your photo</h2>' +
-          '<p class="small muted" style="margin-bottom:.5rem">Drag the photo to reposition, and use the slider to zoom.</p>' +
+          '<h2 id="crop-title">Adjust &amp; crop photo</h2>' +
+          '<p class="small muted" style="margin-bottom:.5rem">Drag to reposition and use the slider to zoom.</p>' +
           '<div class="crop-stage"><canvas width="' + boxW + '" height="' + boxH + '"></canvas></div>' +
           '<div class="crop-controls">' +
             '<label for="crop-zoom">Zoom</label>' +
@@ -395,7 +391,7 @@
       function draw(targetCtx, w, h, withOverlay) {
         targetCtx.clearRect(0, 0, w, h);
         targetCtx.save();
-        targetCtx.fillStyle = '#050806';
+        targetCtx.fillStyle = '#141b17';
         targetCtx.fillRect(0, 0, w, h);
         const ratio = w / boxW;
         const scale = getBaseScale() * zoom * ratio;
@@ -406,7 +402,7 @@
 
         if (withOverlay) {
           targetCtx.save();
-          targetCtx.fillStyle = 'rgba(5, 8, 6, 0.58)';
+          targetCtx.fillStyle = 'rgba(14, 20, 16, 0.58)';
           targetCtx.beginPath();
           targetCtx.rect(0, 0, w, h);
           if (circle) {
@@ -418,8 +414,8 @@
           }
           targetCtx.fill();
 
-          targetCtx.strokeStyle = '#c8ff1a';
-          targetCtx.lineWidth = 2.5;
+          targetCtx.strokeStyle = '#98c443';
+          targetCtx.lineWidth = 2;
           targetCtx.beginPath();
           if (circle) {
             targetCtx.arc(w / 2, h / 2, Math.min(w, h) * 0.46, 0, Math.PI * 2);
@@ -511,28 +507,6 @@
     }
   }
 
-  /* ---------- Selective scroll reveal (used on landing page cards only) ---------- */
-  function reveal(selector) {
-    const els = Array.from(document.querySelectorAll(selector));
-    if (!els.length) return;
-    if (!('IntersectionObserver' in window)) {
-      els.forEach(el => el.classList.add('in'));
-      return;
-    }
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(en => {
-        if (!en.isIntersecting) return;
-        en.target.classList.add('in');
-        io.unobserve(en.target);
-      });
-    }, { threshold: 0.12 });
-    els.forEach((el, idx) => {
-      el.classList.add('reveal');
-      el.style.transitionDelay = Math.min(idx * 65, 260) + 'ms';
-      io.observe(el);
-    });
-  }
-
   /* ---------- start ---------- */
   initPasswordToggles();
   const ready = api('session.php').then(session => {
@@ -544,5 +518,5 @@
     return session;
   });
 
-  window.PT = { root, esc, money, hourLabel, timeLabel, dateLabel, plural, closeText, query, media, hourOptions, api, fillForm, showError, requireRole, reveal, showConfirm, attachCropper, ready };
+  window.PT = { root, esc, money, hourLabel, timeLabel, dateLabel, plural, closeText, query, media, hourOptions, api, fillForm, showError, requireRole, showConfirm, attachCropper, ready };
 })();

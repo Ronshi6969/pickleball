@@ -86,7 +86,7 @@ PT.ready.then(async () => {
         <div class="small muted">${esc(c.address)}</div>
         <div class="small muted">Open ${esc(hourLabel(c.opening_hour))} to ${esc(closeText(c.closing_hour))}</div>
         <div><span class="badge">${esc(c.city)}</span> <span class="badge">Pickleball</span> <span class="price">${esc(money(c.hourly_rate))}</span><span class="small muted"> per hour</span></div>
-        <a class="btn btn-ink" href="court.html?id=${Number(c.id)}">Check times <span class="btn-arrow">&rarr;</span></a>
+        <a class="btn btn-ink" href="court.html?id=${Number(c.id)}">Check times</a>
       </div>
     </article>`).join('') + '</div>';
 });

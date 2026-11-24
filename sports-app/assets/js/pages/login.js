@@ -10,7 +10,7 @@ PT.ready.then(session => {
   function syncRoleLabel() {
     const checked = form.querySelector('input[name="login_role"]:checked');
     const isAdmin = checked && checked.value === 'manager';
-    if (submitBtn) submitBtn.innerHTML = (isAdmin ? 'Log in as Admin' : 'Log in as Player') + ' <span class="btn-arrow">&rarr;</span>';
+    if (submitBtn) submitBtn.textContent = isAdmin ? 'Log in as Admin' : 'Log in as Player';
   }
   radios.forEach(r => r.addEventListener('change', syncRoleLabel));
 

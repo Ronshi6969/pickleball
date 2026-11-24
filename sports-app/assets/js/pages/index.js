@@ -15,9 +15,9 @@ PT.ready.then(async session => {
           <div>${esc(p.venue_name)} &middot; ${PT.plural(p.courts_used, 'court')}</div>
           <div><strong>${esc(dateLabel(p.play_date))}</strong></div>
           <div class="small muted">${esc(timeLabel(p.start_time))} to ${esc(timeLabel(p.end_time))}</div>
-          <div class="price">${esc(money(p.price))} <span class="small muted" style="font-family:Outfit,sans-serif;font-weight:400">per slot</span></div>
+          <div class="price">${esc(money(p.price))} <span class="small muted" style="font-weight:400">per slot</span></div>
           <div class="small">${Number(p.slots_left) > 0 ? Number(p.slots_left) + ' slots left' : 'Full'}</div>
-          <a class="btn btn-ink" href="openplays.html?date=${esc(p.play_date)}#play-${Number(p.id)}">Join game <span class="btn-arrow">&rarr;</span></a>
+          <a class="btn btn-ink" href="openplays.html?date=${esc(p.play_date)}#play-${Number(p.id)}">Join game</a>
         </div>
       </article>`).join('') + '</div>';
   }
@@ -29,11 +29,9 @@ PT.ready.then(async session => {
         <h3>${esc(c.name)}</h3>
         <div>${esc(c.venue_name)}, ${esc(c.city)}</div>
         <div><span class="badge">Pickleball</span> <span class="price">${esc(money(c.hourly_rate))}</span><span class="small muted"> per hour</span></div>
-        <a class="btn btn-ink" href="court.html?id=${Number(c.id)}">Check times <span class="btn-arrow">&rarr;</span></a>
+        <a class="btn btn-ink" href="court.html?id=${Number(c.id)}">Check times</a>
       </div>
     </article>`).join('');
 
   if (!session.user) document.getElementById('cta').hidden = false;
-  PT.reveal('.feature-card');
-  PT.reveal('#plays-box .card, #featured-box .card');
 });
