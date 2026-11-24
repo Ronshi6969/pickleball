@@ -187,9 +187,18 @@ p{margin:0 0 1em}
 .hero-actions{
   display:flex;flex-wrap:wrap;gap:.75rem;
 }
+.hero-actions .btn-ghost{
+  border-width:2px;
+  border-color:rgba(234,238,233,.55);
+  background:rgba(20,27,23,.45);
+}
+.hero-actions .btn-ghost:hover{
+  background:var(--card);
+  border-color:var(--accent);
+}
 .hero-meta{
   display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:1.75rem;padding-top:1.25rem;
-  border-top:1px solid var(--line-strong);font-size:.86rem;color:#cbd6ce;
+  border-top:2px solid rgba(234,238,233,.4);font-size:.86rem;color:#cbd6ce;
 }
 .hero-meta strong{color:var(--text);font-size:.95rem;display:block;margin-bottom:.1rem}
 
