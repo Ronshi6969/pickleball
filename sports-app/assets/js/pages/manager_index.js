@@ -3,7 +3,7 @@ PT.ready.then(async session => {
   const { esc, media, plural } = PT;
   const { venue, branches, stats } = await PT.api('manager/index.php');
   document.getElementById('hero').innerHTML = `
-    ${media(venue.photo, venue.name, 'thumb')}
+    ${media(venue.photo, venue.name, 'thumb', venue.city)}
     <div>
       <h1>${esc(venue.name)}</h1>
       <p class="muted">${esc(venue.address)}</p>

@@ -27,11 +27,19 @@
   const closeText = h => Number(h) === 24 ? '12:00 AM' : hourLabel(h);
   const query = () => new URLSearchParams(location.search);
 
-  // <img> if a photo exists, otherwise a coloured letter tile
-  function media(path, alt, cls) {
+  // <img> if a photo exists, otherwise a clean flat placeholder tile (initials for avatar, branch label for thumb)
+  function media(path, alt, cls, label) {
     cls = cls || 'thumb';
     if (path) return '<img class="' + esc(cls) + '" src="' + esc(root + path) + '" alt="' + esc(alt) + '" loading="lazy">';
-    return '<div class="' + esc(cls) + ' ph" role="img" aria-label="' + esc(alt) + '">' + esc(String(alt).charAt(0).toUpperCase()) + '</div>';
+    if (cls.includes('avatar')) {
+      const parts = String(alt || '').trim().split(/\s+/).filter(Boolean);
+      const initials = parts.length >= 2
+        ? (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase()
+        : String(alt || 'P').slice(0, 2).toUpperCase();
+      return '<div class="' + esc(cls) + ' ph" role="img" aria-label="' + esc(alt) + '">' + esc(initials) + '</div>';
+    }
+    const text = label || String(alt || 'Play Together');
+    return '<div class="' + esc(cls) + ' ph ph-branch" role="img" aria-label="' + esc(alt) + '"><span>' + esc(text) + '</span><small>No photo yet</small></div>';
   }
 
   // <option> list of hours, e.g. hourOptions(0, 23, 6)

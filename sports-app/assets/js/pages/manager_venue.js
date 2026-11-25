@@ -2,7 +2,9 @@
 PT.ready.then(async session => {
   const { venue } = await PT.api('manager/venue.php');
   const form = document.getElementById('venue-form');
-  document.getElementById('photo-box').innerHTML = PT.media(venue.photo, venue.name);
+  document.getElementById('photo-box').innerHTML = PT.media(venue.photo, venue.name, 'thumb', venue.city);
+  const delBtn = document.getElementById('delete-photo-btn');
+  if (delBtn && venue.photo) delBtn.hidden = false;
   document.getElementById('open').innerHTML = PT.hourOptions(0, 23, venue.opening_hour);
   document.getElementById('close').innerHTML = PT.hourOptions(1, 24, venue.closing_hour, true);
   document.getElementById('new-open').innerHTML = PT.hourOptions(0, 23, 6);

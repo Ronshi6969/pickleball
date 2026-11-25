@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=4">
+  <link rel="stylesheet" href="assets/css/style.css?v=10">
 </head>
 
 <body data-root="" data-nav="profile">
@@ -18,14 +18,31 @@
   <div id="flashes"></div>
   <main>
     <div class="container">
+      <form method="post" action="actions/profile_save.php" id="delete-avatar-form"
+        data-confirm="Are you sure you want to delete your profile photo?"
+        data-confirm-title="Delete profile photo?"
+        data-confirm-btn="Yes, delete photo"
+        data-confirm-cancel="Keep photo">
+        <input type="hidden" name="csrf" value="">
+        <input type="hidden" name="action" value="delete_avatar">
+      </form>
+
       <form method="post" action="actions/profile_save.php" id="profile-form" enctype="multipart/form-data"
-        class="form-card form-narrow" novalidate>
+        class="form-card form-narrow" style="max-width:34rem" novalidate>
         <h1>Edit profile</h1>
         <input type="hidden" name="csrf" value="">
-        <div class="field" style="display:flex;gap:1rem;align-items:center">
+        <div class="field photo-editor photo-editor-avatar">
           <span id="avatar-box"></span>
-          <div style="flex:1"><label for="avatar">Profile photo</label><input type="file" id="avatar" name="avatar"
-              accept="image/jpeg,image/png,image/webp"></div>
+          <div class="photo-editor-controls">
+            <div>
+              <label for="avatar">Profile photo</label>
+              <input type="file" id="avatar" name="avatar" accept="image/jpeg,image/png,image/webp">
+            </div>
+            <div class="photo-editor-actions">
+              <button class="btn btn-sm btn-danger" type="submit" form="delete-avatar-form" id="delete-avatar-btn" hidden>Delete photo</button>
+              <span class="small muted">JPG, PNG or WEBP, max 2 MB</span>
+            </div>
+          </div>
         </div>
         <div class="field"><label for="name">Full name</label><input type="text" id="name" name="name" required
             maxlength="100"></div>

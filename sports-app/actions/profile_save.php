@@ -8,6 +8,18 @@ csrf_check();
 $uid = (int)$user['id'];
 $pickleId = pickleball_sport_id();
 
+if (($_POST['action'] ?? '') === 'delete_avatar') {
+    $oldAvatar = $user['avatar'] ?? null;
+    db_run('UPDATE users SET avatar = NULL WHERE id = ?', [$uid]);
+    if ($oldAvatar && str_starts_with($oldAvatar, 'uploads/avatars/')) {
+        $path = realpath(__DIR__ . '/../' . $oldAvatar);
+        $dir  = realpath(__DIR__ . '/../uploads/avatars');
+        if ($path && $dir && str_starts_with($path, $dir) && is_file($path)) { @unlink($path); }
+    }
+    flash('success', 'Profile photo deleted.');
+    redirect('profile.html');
+}
+
 $name   = trim($_POST['name'] ?? '');
 $skill  = $_POST['skill'] ?? '';
 $errors = [];
@@ -23,7 +35,13 @@ if (!$errors) {
     try {
         db_begin();
         if ($avatar !== null) {
+            $oldAvatar = $user['avatar'] ?? null;
             db_run('UPDATE users SET name = ?, skill_level = ?, avatar = ? WHERE id = ?', [$name, $skill, $avatar, $uid]);
+            if ($oldAvatar && str_starts_with($oldAvatar, 'uploads/avatars/')) {
+                $path = realpath(__DIR__ . '/../' . $oldAvatar);
+                $dir  = realpath(__DIR__ . '/../uploads/avatars');
+                if ($path && $dir && str_starts_with($path, $dir) && is_file($path)) { @unlink($path); }
+            }
         } else {
             db_run('UPDATE users SET name = ?, skill_level = ? WHERE id = ?', [$name, $skill, $uid]);
         }

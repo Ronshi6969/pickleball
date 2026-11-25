@@ -6,6 +6,8 @@ PT.ready.then(async session => {
   const form = document.getElementById('profile-form');
 
   document.getElementById('avatar-box').innerHTML = PT.media(user.avatar, user.name, 'avatar');
+  const delBtn = document.getElementById('delete-avatar-btn');
+  if (delBtn && user.avatar) delBtn.hidden = false;
   form.elements.name.value = user.name;
   form.elements.skill.value = user.skill_level;
   PT.fillForm(form, session.old);

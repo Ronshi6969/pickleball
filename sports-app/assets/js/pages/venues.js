@@ -79,7 +79,7 @@ PT.ready.then(async () => {
   }
   box.innerHTML = `<p class="muted">${PT.plural(data.courts.length, 'pickleball court')} found</p><div class="grid">` + data.courts.map(c => `
     <article class="card">
-      ${media(c.photo, c.venue_name)}
+      ${media(c.photo, c.venue_name, 'thumb', c.city)}
       <div class="card-body">
         <h3>${esc(c.name)}</h3>
         <div><strong>${esc(c.venue_name)}</strong></div>

@@ -24,7 +24,7 @@ PT.ready.then(async session => {
 
   document.getElementById('featured-box').innerHTML = data.featured.map(c => `
     <article class="card">
-      ${media(c.photo, c.venue_name)}
+      ${media(c.photo, c.venue_name, 'thumb', c.city)}
       <div class="card-body">
         <h3>${esc(c.name)}</h3>
         <div>${esc(c.venue_name)}, ${esc(c.city)}</div>
