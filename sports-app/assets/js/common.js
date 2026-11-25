@@ -27,8 +27,8 @@
   const closeText = h => Number(h) === 24 ? '12:00 AM' : hourLabel(h);
   const query = () => new URLSearchParams(location.search);
 
-  // <img> if a photo exists, otherwise a clean flat placeholder tile (initials for avatar, branch label for thumb)
-  function media(path, alt, cls, label) {
+  // <img> if a photo exists; otherwise default branch photo for thumbs, or initials tile for avatars
+  function media(path, alt, cls) {
     cls = cls || 'thumb';
     if (path) return '<img class="' + esc(cls) + '" src="' + esc(root + path) + '" alt="' + esc(alt) + '" loading="lazy">';
     if (cls.includes('avatar')) {
@@ -38,8 +38,7 @@
         : String(alt || 'P').slice(0, 2).toUpperCase();
       return '<div class="' + esc(cls) + ' ph" role="img" aria-label="' + esc(alt) + '">' + esc(initials) + '</div>';
     }
-    const text = label || String(alt || 'Play Together');
-    return '<div class="' + esc(cls) + ' ph ph-branch" role="img" aria-label="' + esc(alt) + '"><span>' + esc(text) + '</span><small>No photo yet</small></div>';
+    return '<img class="' + esc(cls) + '" src="' + esc(root + 'assets/img/branch-default.jpg') + '" alt="' + esc(alt) + '" loading="lazy">';
   }
 
   // <option> list of hours, e.g. hourOptions(0, 23, 6)
